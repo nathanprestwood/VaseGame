@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "49778665417",
+    "project_id": "firebase-getme41"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49778665417:android:37cd45eb47eabd99",
+        "android_client_info": {
+          "package_name": "ufpe.cin.nmf2.vasegame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49778665417-090e28qgbldpjp5gudrf0u96u5vjt7gt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ufpe.cin.nmf2.vasegame",
+            "certificate_hash": "B39ACC4771CA096C10EEAFDAB16EE8ACE4174209"
+          }
+        },
+        {
+          "client_id": "49778665417-j70haj4asp5njsncgnent5kn3iogid4t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuLEJk70GzFOmgiikUFLCn3Wo7pH0Ukds"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
