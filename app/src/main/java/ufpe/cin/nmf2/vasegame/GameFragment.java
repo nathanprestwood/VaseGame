@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -23,8 +24,6 @@ public class GameFragment extends Fragment {
 	private static String sGameType;
 	private static String sUsername;
 
-
-
 	private DbManager mDbManager;
 
 	private boolean mTimerStarted;
@@ -35,6 +34,10 @@ public class GameFragment extends Fragment {
 	private ToggleButton mFirstToggleButton;
 	private ToggleButton mSecondToggleButton;
 	private ToggleButton mThirdToggleButton;
+
+	private ImageView mFirstBucket;
+	private ImageView mSecondBucket;
+	private ImageView mThirdBucket;
 
 	private TextView mFirstTextView;
 	private TextView mSecondTextView;
@@ -136,10 +139,16 @@ public class GameFragment extends Fragment {
 		int first = Integer.parseInt(one.getText().toString());
 		int second = Integer.parseInt(two.getText().toString());
 
-		while(first > 0 && second < limit){
-			first--;
-			second++;
+		int sum = first + second;
+
+		if(sum - limit >= 0){
+			second = limit;
+			first = sum - limit;
+		} else {
+			second = sum;
+			first = 0;
 		}
+
 		String temp = "" + first;
 		one.setText(temp);
 		temp = "" + second;

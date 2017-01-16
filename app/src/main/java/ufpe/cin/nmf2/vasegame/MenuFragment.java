@@ -25,11 +25,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 
-import java.util.List;
-
-import ufpe.cin.nmf2.vasegame.CloudManager.CloudManager;
-import ufpe.cin.nmf2.vasegame.database.DbManager;
-
 
 public class MenuFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener{
 	private static final int RC_SIGN_IN = 9001;
@@ -72,7 +67,6 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 				GameFragment.setUsername(mUsername);
 				Intent intent = new Intent(getActivity(), HardGameActivity.class);
 				startActivity(intent);
-
 			}
 		});
 		mHighScoresButton.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +95,7 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
+		Log.d(TAG, "onActivityResult: resultCode: " + resultCode + " requestCode: " + requestCode);
 		// Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
 		if (requestCode == RC_SIGN_IN) {
 			GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
@@ -109,33 +103,14 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 		}
 	}
 	private void handleSignInResult(GoogleSignInResult result) {
-		Log.d(TAG, "handleSignInResult:" + result.isSuccess());
 		mAccount = result.getSignInAccount();
+		Log.d(TAG, "handleSignInResult: " + result.isSuccess() + " mAccount: " + mAccount);
+
 		if (result.isSuccess() && mAccount != null) {
 			// Signed in successfully, show authenticated UI.
 			mUsername = mAccount.getEmail();
-
-			updateDatabase();
 			updateUI();
 		}
-	}
-
-	private void updateDatabase() {
-		DbManager dbManager = new DbManager(getContext());
-		List<Game> fromDb = dbManager.getGames();
-		CloudManager cloudManager = new CloudManager(getContext());
-
-		if(fromDb.size() > 0){
-			String email = mAccount.getEmail();
-			Log.d(TAG, "Email: " + email);
-			List<Game> fromCloud = cloudManager.getGames(email);
-			if(fromCloud.size() > fromDb.size())
-				for (Game game : fromCloud)
-					if (!fromDb.contains(game))
-						dbManager.addGame(game);
-		}
-		DbManager.closeDb();
-		Log.d(TAG, "updateDatabase: end");
 	}
 
 	private void updateUI() {

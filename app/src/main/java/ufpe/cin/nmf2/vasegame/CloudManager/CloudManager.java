@@ -26,6 +26,7 @@ import okhttp3.Response;
 import ufpe.cin.nmf2.vasegame.Game;
 import ufpe.cin.nmf2.vasegame.MenuFragment;
 import ufpe.cin.nmf2.vasegame.R;
+import ufpe.cin.nmf2.vasegame.database.DbManager;
 import ufpe.cin.nmf2.vasegame.fiware.GameJson;
 
 public class CloudManager implements SendGameResponse, GetGameResponse {
@@ -40,8 +41,6 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 
 	private Context mContext;
 	private Game mGame;
-	private int mGameId = 0;
-
 
 	public CloudManager(Context context) {
 		mContext = context;
@@ -210,8 +209,11 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 		return games;
 	}
 	@Override
-	public void getFinish(List<Game> result) {
+	public void getFinish(List<Game> games) {
 		Log.d(TAG, "getFinish: finished getting games");
+		DbManager dbManager = new DbManager(mContext);
+		dbManager.addGames(games);
+		DbManager.closeDb();
 	}
 
 	//End of GETTING

@@ -42,6 +42,9 @@ public class DbManager {
 		mDatabase.insert(GameTable.NAME, null, values);
 		//mDatabase.setVersion(mDatabase.getVersion() + 1);
 	}
+	public void addGames(List<Game> games){
+		for (Game game : games) addGame(game);
+	}
 	public void updateGame(Game game) {
 		String uuidString = game.getId().toString();
 		ContentValues values = getContentValues(game);

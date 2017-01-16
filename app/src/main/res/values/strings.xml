@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">GetMe41!</string>
-    <string name="connection_error">Connection Error: please check your connection and try again.</string>
+    <string name="connection_error">Impossible to sign in: no internet connection.</string>
     <string name="network_logon_error">Network Logon Error: logon to your network and try again. (Use a browser)</string>
     <string name="login_error">Login Error: Login at the menu and try again.</string>
     <string name="fulfill">Fulfill</string>
@@ -17,7 +17,7 @@
     <string name="easy_type">EASY</string>
     <string name="scores">Scores</string>
     <string name="signin_error">The sign in failed, try again please</string>
-    <string name="hard_warning">Careful! Now you can fill and empty each bucket only once!</string>
+    <string name="hard_warning">Careful! Now you can't empty buckets!</string>
     <string name="login">Log In</string>
     <string name="greeting">Welcome, </string>
     <string name="sync">Sync</string>
