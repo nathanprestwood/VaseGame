@@ -86,7 +86,6 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 				e.printStackTrace();
 				return ERROR_RETRIEVING_DATA;
 			}
-
 		}
 		// onPostExecute displays the results of the AsyncTask.
 		@Override

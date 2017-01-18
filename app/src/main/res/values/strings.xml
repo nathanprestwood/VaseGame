@@ -17,7 +17,7 @@
     <string name="easy_type">EASY</string>
     <string name="scores">Scores</string>
     <string name="signin_error">The sign in failed, try again please</string>
-    <string name="hard_warning">Careful! Now you can't empty buckets!</string>
+    <string name="hard_warning">Careful! Now you can\'t empty buckets!</string>
     <string name="login">Log In</string>
     <string name="greeting">Welcome, </string>
     <string name="sync">Sync</string>
