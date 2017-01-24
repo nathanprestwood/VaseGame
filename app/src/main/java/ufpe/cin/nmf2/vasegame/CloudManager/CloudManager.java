@@ -41,6 +41,7 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 
 	private Context mContext;
 	private Game mGame;
+	private static String sUsername;
 
 	public CloudManager(Context context) {
 		mContext = context;
@@ -56,7 +57,12 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 				String result = "OK";
 				for(Game game : games[0]){
 					mGame = game;
-					String gameStr = GameJson.gameToJson(mGame);
+					if(game.getUsername().equals(Game.ANONYMOUS)){
+						mGame.setUsername(sUsername);
+						DbManager dbManager = new DbManager(mContext);
+						dbManager.updateGame(game);
+					}
+					String gameStr = GameJson.gameToJson(game);
 					Log.d(TAG, "sendGameUtil: json: " + gameStr);
 
 					OkHttpClient client = new OkHttpClient();
@@ -73,7 +79,7 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 
 					Log.d(TAG, "SendGame: The response is: " + response.message());
 					if(response.code() != 422 && response.code() != 201){
-						String id = mGame.getId().toString();
+						String id = game.getId().toString();
 						result = "ERROR";
 						Log.d(TAG, "SendGame: doInBackground: Error sending game " + id);
 						Log.d(TAG, "SendGame: doInBackground: saving game to file, error code: " + response.code());
@@ -97,8 +103,11 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 
 	public void sendGames(List<Game> games){
 		if (games.size() == 0) return;
-		FileHandler.write(mContext,"",false);
-		sendGame(games);
+		if (sUsername == null){
+			Toast.makeText(mContext, "Login first, please", Toast.LENGTH_SHORT).show();
+		} else {
+			sendGame(games);
+		}
 	}
 
 	public boolean sendGame(List<Game> games){
@@ -158,7 +167,6 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 
 				Response response = client.newCall(request).execute();
 				content = response.body().string();
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -230,7 +238,6 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 			return ERROR_LOGIN;
 		}
 		try {
-
 			OkHttpClient client = new OkHttpClient();
 
 			Request request = new Request.Builder()
@@ -268,5 +275,8 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 		char[] buffer = new char[len];
 		reader.read(buffer);
 		return new String(buffer);
+	}
+	public static void setUsername(String username){
+		sUsername = username;
 	}
 }

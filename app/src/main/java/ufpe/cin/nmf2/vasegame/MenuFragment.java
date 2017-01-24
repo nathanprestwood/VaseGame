@@ -25,6 +25,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 
+import ufpe.cin.nmf2.vasegame.CloudManager.CloudManager;
+
 
 public class MenuFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener{
 	private static final int RC_SIGN_IN = 9001;
@@ -34,7 +36,7 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 	private SignInButton mSignInButton;
 	private Button mHighScoresButton;
 	public static GoogleSignInAccount mAccount;
-	public static String mUsername;
+	public String mUsername;
 
 	private GoogleApiClient mGoogleApiClient;
 
@@ -109,6 +111,7 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 		if (result.isSuccess() && mAccount != null) {
 			// Signed in successfully, show authenticated UI.
 			mUsername = mAccount.getEmail();
+			if(mUsername != null) CloudManager.setUsername(mUsername);
 			updateUI();
 		}
 	}

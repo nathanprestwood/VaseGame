@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +18,11 @@ public class DbManager {
 	private static final String TAG = "DbManager";
 	private Context mContext;
 	private static SQLiteDatabase mDatabase;
+	private String mUsername;
 
 	public DbManager(Context context){
 		mContext = context.getApplicationContext();
 		mDatabase = new GameBaseHelper(mContext).getWritableDatabase();
-
 	}
 	public static void closeDb(){
 		if(mDatabase != null){
@@ -40,17 +41,19 @@ public class DbManager {
 	public void addGame(Game game){
 		ContentValues values = getContentValues(game);
 		mDatabase.insert(GameTable.NAME, null, values);
-		//mDatabase.setVersion(mDatabase.getVersion() + 1);
 	}
 	public void addGames(List<Game> games){
 		for (Game game : games) addGame(game);
 	}
+
 	public void updateGame(Game game) {
 		String uuidString = game.getId().toString();
 		ContentValues values = getContentValues(game);
-		mDatabase.update(GameTable.NAME, values,
+		int numberOfRows = mDatabase.update(GameTable.NAME, values,
 				GameTable.Cols.UUID + " = ?",
 				new String[] { uuidString });
+		Log.d(TAG, "DbManager: updateGame: uuid: " + uuidString);
+		Log.d(TAG, "updateGame: number of games updated: " + numberOfRows);
 	}
 	private GameCursorWrapper queryGames(String whereClause, String[] whereArgs) {
 		Cursor cursor = mDatabase.query(
@@ -118,6 +121,9 @@ public class DbManager {
 			}
 		}
 		return games;
+	}
+	void setUsername(String username){
+		mUsername = username;
 	}
 
 }

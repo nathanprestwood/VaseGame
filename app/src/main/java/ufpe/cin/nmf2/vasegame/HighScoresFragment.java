@@ -49,9 +49,10 @@ public class HighScoresFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				CloudManager cloudManager = new CloudManager(getContext());
-				ArrayList<Game> games = cloudManager.getGames(MenuFragment.mUsername);
+				//ArrayList<Game> games = cloudManager.getGames(MenuFragment.mUsername);
 				updateUI();
 				cloudManager.sendGames(getGamesInFile());
+				FileHandler.write(getContext(),"",false);
 			}
 		});
 

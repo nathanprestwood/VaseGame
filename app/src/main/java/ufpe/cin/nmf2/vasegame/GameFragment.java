@@ -25,7 +25,7 @@ import ufpe.cin.nmf2.vasegame.database.DbManager;
 public class GameFragment extends Fragment {
 	private static final String TAG = "###MenuActivity";
 	private static String sGameType;
-	private static String sUsername;
+	private static String mUsername;
 
 	private DbManager mDbManager;
 	private boolean mTimerStarted;
@@ -136,14 +136,13 @@ public class GameFragment extends Fragment {
 		mSaveButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Game game = new Game(UUID.randomUUID(), sUsername, sGameType, mCounter.getTime());
+				Game game = new Game(UUID.randomUUID(), mUsername, sGameType, mCounter.getTime());
 				if(mDbManager == null) mDbManager = new DbManager(getContext().getApplicationContext());
 				mDbManager.addGame(game);
 				mSaveButton.setEnabled(false);
 				Toast.makeText(getActivity(), "Game saved!", Toast.LENGTH_SHORT).show();
 				CloudManager cloudManager = new CloudManager(getContext());
 				cloudManager.sendGame(game);
-				DbManager.closeDb();
 			}
 		});
 		reset();
@@ -209,6 +208,11 @@ public class GameFragment extends Fragment {
 			mCongratulationsTextView.setVisibility(TextView.VISIBLE);
 			mSaveButton.setVisibility(Button.VISIBLE);
 			mCounter.cancel();
+
+			//deactivate bucket buttons
+			mFirstButton.setEnabled(false);
+			mSecondButton.setEnabled(false);
+			mThirdButton.setEnabled(false);
 			return true;
 		}
 		return false;
@@ -302,12 +306,14 @@ public class GameFragment extends Fragment {
 	private void updateWater(BucketAnimator down, BucketAnimator up, int downLevel, int upLevel){
 		down.mHandler.removeCallbacks(down.mRunnable);
 		down.mFulfill = false;
-		down.mFinalLevel = downLevel;
+		down.mFinalLevel = downLevel*100;
+		Log.d(TAG, "updateWater: downLevel: " + down.mFinalLevel);
 		down.mHandler.post(down.mRunnable);
 
 		up.mHandler.removeCallbacks(up.mRunnable);
 		up.mFulfill = true;
-		up.mFinalLevel = upLevel;
+		up.mFinalLevel = upLevel*100;
+		Log.d(TAG, "updateWater: upLevel: " + up.mFinalLevel);
 		up.mHandler.post(up.mRunnable);
 	}
 	private void updateBucket(int limit){
@@ -318,7 +324,7 @@ public class GameFragment extends Fragment {
 				int volumeToTransfer = (volume1 <= limit - volume2) ? volume1 : limit - volume2; //if the volume of the bucket to be emptied is lower than the volume the second bucket can take
 				//take the fist option, else, take the second
 				updateText(mSecondTextView, mFirstTextView, 81);
-				updateWater(mSecondAnimator, mFirstAnimator, ((volume1 - volumeToTransfer)*100/51)*100, ((volume2 + volumeToTransfer)*100/81)*100);
+				updateWater(mSecondAnimator, mFirstAnimator, ((volume1 - volumeToTransfer)*100/51), ((volume2 + volumeToTransfer)*100/81));
 				if (mSecondTextView.getText().equals("0")) mSecondButton.setText(R.string.fulfill);
 				if (mFirstTextView.getText().equals(limit + "")) mFirstButton.setText(R.string.empty);
 				mFirstToggleButton.setChecked(false);
@@ -330,7 +336,7 @@ public class GameFragment extends Fragment {
 				int volumeToTransfer = (volume1 <= limit - volume2) ? volume1 : limit - volume2; //if the volume of the bucket to be emptied is lower than the volume the second bucket can take
 				//take the fist option, else, take the second
 				updateText(mThirdTextView, mFirstTextView, 81);
-				updateWater(mSecondAnimator, mFirstAnimator, (volume1 - volumeToTransfer)*100/31, (volume2 + volumeToTransfer)*100/81);
+				updateWater(mThirdAnimator, mFirstAnimator, (volume1 - volumeToTransfer)*100/31, (volume2 + volumeToTransfer)*100/81);
 				if (mThirdTextView.getText().equals("0")) mThirdButton.setText(R.string.fulfill);
 				if (mFirstTextView.getText().equals(limit + "")) mFirstButton.setText(R.string.empty);
 				mFirstToggleButton.setChecked(false);
@@ -398,7 +404,7 @@ public class GameFragment extends Fragment {
 		GameFragment.sGameType = gameType;
 	}
 	public static void setUsername(String username) {
-		GameFragment.sUsername = username;
+		mUsername = username;
 	}
 
 	public class BucketAnimator {
@@ -424,6 +430,7 @@ public class GameFragment extends Fragment {
 		}
 
 		public BucketAnimator() {
+
 		}
 
 		private synchronized void doTheAnimation(int toLevel) {

@@ -1,5 +1,7 @@
 package ufpe.cin.nmf2.vasegame;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,6 +21,7 @@ public class Game {
 	public static final String HARD = "HARD";
 	public static final String EASY = "EASY";
 	public static final String ANONYMOUS = "Anonymous";
+	private static final String TAG = "Game";
 	private UUID mId;
 	private String mUsername;
 	private String mGameType;
@@ -55,6 +58,7 @@ public class Game {
 			mDate = format.parse(date);
 		} catch (Exception e) {
 			e.printStackTrace();
+			Log.d(TAG, "setDate: ");
 			mDate = new Date();
 		}
 	}
