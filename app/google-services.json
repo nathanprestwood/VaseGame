@@ -13,21 +13,21 @@
       },
       "oauth_client": [
         {
-          "client_id": "49778665417-090e28qgbldpjp5gudrf0u96u5vjt7gt.apps.googleusercontent.com",
+          "client_id": "49778665417-jgj2i6qsgc6rti9tq14kk37dlh8m0rrq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "ufpe.cin.nmf2.vasegame",
-            "certificate_hash": "B39ACC4771CA096C10EEAFDAB16EE8ACE4174209"
+            "certificate_hash": "23C0984D6D5104EF73B08DE07D68C277E1F17EA2"
           }
         },
         {
-          "client_id": "49778665417-j70haj4asp5njsncgnent5kn3iogid4t.apps.googleusercontent.com",
+          "client_id": "49778665417-5egie6q496l4aref7aj7b4p07a4pfd72.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCuLEJk70GzFOmgiikUFLCn3Wo7pH0Ukds"
+          "current_key": "AIzaSyCJEcKuGuJAfFpVGD66_EVKQ74fOg9vIsk"
         }
       ],
       "services": {

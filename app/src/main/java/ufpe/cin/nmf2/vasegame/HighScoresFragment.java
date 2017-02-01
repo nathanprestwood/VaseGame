@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import ufpe.cin.nmf2.vasegame.CloudManager.CloudManager;
 import ufpe.cin.nmf2.vasegame.CloudManager.FileHandler;
@@ -27,6 +28,7 @@ public class HighScoresFragment extends Fragment {
 	private TextView mUsernameTextView;
 	private GameAdapter mHardAdapter;
 	private GameAdapter mEasyAdapter;
+	private static String mUsername;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +43,11 @@ public class HighScoresFragment extends Fragment {
 		mEasyGameRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 		mUsernameTextView = (TextView) view.findViewById(R.id.high_score_username_text_view);
+		if(mUsername != null){
+			mUsernameTextView.setText(mUsername);
+		} else {
+			mUsernameTextView.setText(Game.ANONYMOUS);
+		}
 
 		mSyncButton = (Button) view.findViewById(R.id.high_score_sync_button);
 		mSyncButton.setText(R.string.sync);
@@ -50,9 +57,8 @@ public class HighScoresFragment extends Fragment {
 			public void onClick(View v) {
 				CloudManager cloudManager = new CloudManager(getContext());
 				//ArrayList<Game> games = cloudManager.getGames(MenuFragment.mUsername);
-				updateUI();
+				//updateUI();
 				cloudManager.sendGames(getGamesInFile());
-				FileHandler.write(getContext(),"",false);
 			}
 		});
 
@@ -147,19 +153,6 @@ public class HighScoresFragment extends Fragment {
 			if(hardGames.size() != 0) {
 				mHardAdapter = new GameAdapter(hardGames);
 				mHardGameRecyclerView.setAdapter(mHardAdapter);
-				Game g = easyGames.get(0);
-				Log.d(TAG, "updateUI->username " + g.getUsername());
-				String[] username;
-				try {
-					username = g.getUsername().split("@");
-				} catch (Exception e){
-					e.printStackTrace();
-					username = new String[1];
-					username[0] = Game.ANONYMOUS;
-				}
-				mUsernameTextView.setText(username[0]);
-			} else {
-				mUsernameTextView.setText(Game.ANONYMOUS);
 			}
 		} else {
 			mHardAdapter.notifyDataSetChanged();
@@ -168,29 +161,16 @@ public class HighScoresFragment extends Fragment {
 			if(easyGames.size() != 0) {
 				mEasyAdapter = new GameAdapter(easyGames);
 				mEasyGameRecyclerView.setAdapter(mEasyAdapter);
-				Game g = easyGames.get(0);
-				Log.d("MINE", "updateUI->username " + g.getUsername());
-				String[] username;
-				try {
-					username = g.getUsername().split("@");
-				} catch (Exception e){
-					e.printStackTrace();
-					username = new String[1];
-					username[0] = Game.ANONYMOUS;
-				}
-				mUsernameTextView.setText(username[0]);
-			} else {
-				mUsernameTextView.setText(Game.ANONYMOUS);
 			}
 		} else {
 			mEasyAdapter.notifyDataSetChanged();
 		}
-
-		DbManager.closeDb();
+		//DbManager.closeDb();
 	}
 	private List<Game> getGamesInFile(){
 		DbManager dbManager = new DbManager(getActivity().getApplicationContext());
 		List<String> ids = FileHandler.getIds(getContext());
+		logList(ids);//show list in debug, delete later
 		List<Game> games = dbManager.getGames();
 		List<Game> gamesInFile = new ArrayList<>();
 
@@ -199,7 +179,14 @@ public class HighScoresFragment extends Fragment {
 				gamesInFile.add(game);
 			}
 		}
-		DbManager.closeDb();
+		//DbManager.closeDb();
 		return gamesInFile;
+	}
+	public void logList(List<String> list){
+		for (String item : list) Log.d(TAG, "logList: " + item);
+	}
+	public static void setUsername(String username){
+		String[] shortUsername = username.split("@");
+		mUsername = shortUsername[0];
 	}
 }

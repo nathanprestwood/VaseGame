@@ -1,6 +1,7 @@
 package ufpe.cin.nmf2.vasegame.CloudManager;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,13 +16,14 @@ import java.util.List;
 /**
  * Created by nmf2 on 21/11/2016.
  * This class is used to read and write to the queued games' file. The games contained in the file
- * haven't been sent to the could.
+ * haven't been sent to the cloud.
  */
 
 public abstract class FileHandler {
 	private static final String FILENAME = "queued_games.txt";
+	private static final String TAG = "FileHandler";
 	public static void write(Context context, String gameId, boolean eraseContent){
-		File file = new File(context.getFilesDir(), FILENAME);
+
 		try{
 			FileOutputStream fOutStream = context.openFileOutput(FILENAME,
 					eraseContent ? Context.MODE_PRIVATE : Context.MODE_APPEND);

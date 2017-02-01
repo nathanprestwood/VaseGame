@@ -30,7 +30,7 @@ import ufpe.cin.nmf2.vasegame.database.DbManager;
 import ufpe.cin.nmf2.vasegame.fiware.GameJson;
 
 public class CloudManager implements SendGameResponse, GetGameResponse {
-	private static final String TAG = "CloudManager Activity";
+	private static final String TAG = "CloudManager";
 	private static final int CONNECTION_UP = 0;
 	private static final int ERROR_LOGIN = 108;
 	private static final int ERROR_INTERNET_CONNECTION = 894;
@@ -80,7 +80,6 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 					Log.d(TAG, "SendGame: The response is: " + response.message());
 					if(response.code() != 422 && response.code() != 201){
 						String id = game.getId().toString();
-						result = "ERROR";
 						Log.d(TAG, "SendGame: doInBackground: Error sending game " + id);
 						Log.d(TAG, "SendGame: doInBackground: saving game to file, error code: " + response.code());
 						FileHandler.write(mContext, id, false);
@@ -137,7 +136,7 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 	@Override
 	public void sendFinish(String result) {
 		//continue here, check the the response code and display a toast or something
-		if( result.equals("ERROR") ){
+		if( !result.equals("OK") ){
 			Log.d(TAG, "sendFinish: error code: " + result);
 			Log.d(TAG, "sendFinish: saving game to file...");
 			Toast.makeText(mContext, "Couldn't sync a few games, try again please", Toast.LENGTH_SHORT).show();
@@ -220,7 +219,7 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 		Log.d(TAG, "getFinish: finished getting games");
 		DbManager dbManager = new DbManager(mContext);
 		dbManager.addGames(games);
-		DbManager.closeDb();
+		//DbManager.closeDb();
 	}
 
 	//End of GETTING
@@ -249,6 +248,11 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 			if (response.isRedirect()) {
 				Log.d(TAG, "connectionStatus: redirect");
 				return ERROR_BAD_RESPONSE;
+			}
+			else if(!response.isSuccessful()){
+				Log.d(TAG, "connectionStatus: SERVER DOWN");
+				return ERROR_BAD_RESPONSE;
+
 			}
 			
 		} catch (Exception e) {

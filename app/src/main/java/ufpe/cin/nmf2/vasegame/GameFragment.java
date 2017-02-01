@@ -20,6 +20,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import ufpe.cin.nmf2.vasegame.CloudManager.CloudManager;
+import ufpe.cin.nmf2.vasegame.CloudManager.FileHandler;
 import ufpe.cin.nmf2.vasegame.database.DbManager;
 
 public class GameFragment extends Fragment {
@@ -142,7 +143,11 @@ public class GameFragment extends Fragment {
 				mSaveButton.setEnabled(false);
 				Toast.makeText(getActivity(), "Game saved!", Toast.LENGTH_SHORT).show();
 				CloudManager cloudManager = new CloudManager(getContext());
-				cloudManager.sendGame(game);
+				boolean successful = cloudManager.sendGame(game);
+				if(!successful) {
+					FileHandler.write(getContext(), game.getId().toString(), false);
+					Log.d(TAG, "write: Game UUID: " + game.getId().toString());
+				}
 			}
 		});
 		reset();
@@ -184,8 +189,8 @@ public class GameFragment extends Fragment {
 				mMinutes++;
 				mSeconds = 0;
 			}
-			String temp = String.format(Locale.US, "%02d:%02d:%02d", mMinutes, mSeconds, mCents);
-			mTimerTextView.setText(temp);
+			String string = String.format(Locale.US, "%02d:%02d:%02d", mMinutes, mSeconds, mCents);
+			mTimerTextView.setText(string);
 		}
 		public void onFinish() {
 			mTimerTextView.setText("Time's over. You suck!");

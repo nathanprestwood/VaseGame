@@ -74,6 +74,7 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 		mHighScoresButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				HighScoresFragment.setUsername(mUsername);
 				Intent intent = new Intent(getActivity(), HighScoresActivity.class);
 				startActivity(intent);
 			}
