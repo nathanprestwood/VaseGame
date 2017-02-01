@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,7 +97,7 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Log.d(TAG, "onActivityResult: resultCode: " + resultCode + " requestCode: " + requestCode);
+		//Log.d(TAG, "onActivityResult: resultCode: " + resultCode + " requestCode: " + requestCode);
 		// Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
 		if (requestCode == RC_SIGN_IN) {
 			GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
@@ -107,7 +106,7 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 	}
 	private void handleSignInResult(GoogleSignInResult result) {
 		mAccount = result.getSignInAccount();
-		Log.d(TAG, "handleSignInResult: " + result.isSuccess() + " mAccount: " + mAccount);
+		//Log.d(TAG, "handleSignInResult: " + result.isSuccess() + " mAccount: " + mAccount);
 
 		if (result.isSuccess() && mAccount != null) {
 			// Signed in successfully, show authenticated UI.
@@ -124,7 +123,7 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 			mWelcomeTextView.setText(getString(R.string.greeting) + " " + mAccount.getDisplayName() + "!");
 			mWelcomeTextView.setSelected(true);
 			mWelcomeTextView.setSingleLine();
-			Log.d(TAG, "mAccount.getDisplayName(): " + mAccount.getDisplayName());
+			//Log.d(TAG, "mAccount.getDisplayName(): " + mAccount.getDisplayName());
 		}
 	}
 
@@ -149,7 +148,7 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 		if (opr.isDone()) {
 			// If the user's cached credentials are valid, the OptionalPendingResult will be "done"
 			// and the GoogleSignInResult will be available instantly.
-			Log.d(TAG, "Got cached sign-in");
+			//Log.d(TAG, "Got cached sign-in");
 			GoogleSignInResult result = opr.get();
 			handleSignInResult(result);
 		} else {
@@ -158,7 +157,7 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 			// single sign-on will occur in this branch.
 			opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
 				@Override
-				public void onResult(GoogleSignInResult googleSignInResult) {
+				public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
 					handleSignInResult(googleSignInResult);
 				}
 			});

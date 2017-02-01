@@ -20,11 +20,10 @@ import java.util.Locale;
 import java.util.UUID;
 
 import ufpe.cin.nmf2.vasegame.CloudManager.CloudManager;
-import ufpe.cin.nmf2.vasegame.CloudManager.FileHandler;
 import ufpe.cin.nmf2.vasegame.database.DbManager;
 
 public class GameFragment extends Fragment {
-	private static final String TAG = "###MenuActivity";
+	private static final String TAG = "GameFragment";
 	private static String sGameType;
 	private static String mUsername;
 
@@ -70,6 +69,8 @@ public class GameFragment extends Fragment {
 		Bundle bundle = getArguments();
 
 		mFragmentActivity = getActivity();
+
+		mDbManager = new DbManager(getContext());
 
 		mFirstAnimator = new BucketAnimator(mFirstDrawable);
 		mSecondAnimator = new BucketAnimator(mSecondDrawable);
@@ -137,22 +138,25 @@ public class GameFragment extends Fragment {
 		mSaveButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Game game = new Game(UUID.randomUUID(), mUsername, sGameType, mCounter.getTime());
-				if(mDbManager == null) mDbManager = new DbManager(getContext().getApplicationContext());
-				mDbManager.addGame(game);
 				mSaveButton.setEnabled(false);
+				Game game = new Game(UUID.randomUUID(), mUsername, sGameType, mCounter.getTime());
+				mDbManager.addGame(game);
 				Toast.makeText(getActivity(), "Game saved!", Toast.LENGTH_SHORT).show();
-				CloudManager cloudManager = new CloudManager(getContext());
-				boolean successful = cloudManager.sendGame(game);
-				if(!successful) {
-					FileHandler.write(getContext(), game.getId().toString(), false);
-					Log.d(TAG, "write: Game UUID: " + game.getId().toString());
-				}
+				CloudManager cloudManager = new CloudManager(getContext(), true);
+				cloudManager.sendGame(game);
 			}
 		});
 		reset();
 		return view;
 	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		mDbManager.close();
+		Log.d(TAG, "onDestroyView: database closed");
+	}
+
 	private static void updateText(TextView one, TextView two, int limit){
 		int first = Integer.parseInt(one.getText().toString());
 		int second = Integer.parseInt(two.getText().toString());

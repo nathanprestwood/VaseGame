@@ -40,11 +40,12 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 	public static final MediaType JSON  = MediaType.parse("application/json; charset=utf-8");
 
 	private Context mContext;
-	private Game mGame;
 	private static String sUsername;
+	private boolean mSingleGame;
 
-	public CloudManager(Context context) {
+	public CloudManager(Context context, boolean isSingleGame) {
 		mContext = context;
+		mSingleGame = isSingleGame;
 	}
 
 	private class SendGamesTask extends AsyncTask<List<Game>, Void, String> {
@@ -52,14 +53,13 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 		@Override
 		protected String doInBackground(List<Game>... games) {
 			// params comes from the execute() call: params[0] is the url.
+			DbManager dbManager = new DbManager(mContext);
 			Log.d(TAG, "doInBackground: started SendGames task!");
 			try {
 				String result = "OK";
 				for(Game game : games[0]){
-					mGame = game;
 					if(game.getUsername().equals(Game.ANONYMOUS)){
-						mGame.setUsername(sUsername);
-						DbManager dbManager = new DbManager(mContext);
+						game.setUsername(sUsername);
 						dbManager.updateGame(game);
 					}
 					String gameStr = GameJson.gameToJson(game);
@@ -78,6 +78,7 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 					Response response = client.newCall(request).execute();
 
 					Log.d(TAG, "SendGame: The response is: " + response.message());
+					Log.d(TAG, "doInBackground: reponse body: " + response.body());
 					if(response.code() != 422 && response.code() != 201){
 						String id = game.getId().toString();
 						Log.d(TAG, "SendGame: doInBackground: Error sending game " + id);
@@ -85,10 +86,11 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 						FileHandler.write(mContext, id, false);
 					}
 				}
-
+				dbManager.close();
 				return result;
 			} catch (IOException e) {
 				e.printStackTrace();
+				dbManager.close();
 				return ERROR_RETRIEVING_DATA;
 			}
 		}
@@ -101,7 +103,10 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 	}
 
 	public void sendGames(List<Game> games){
-		if (games.size() == 0) return;
+		if (games.size() == 0) {
+			Log.d(TAG, "sendGames: no games to send");
+			return;
+		}
 		if (sUsername == null){
 			Toast.makeText(mContext, "Login first, please", Toast.LENGTH_SHORT).show();
 		} else {
@@ -111,9 +116,6 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 
 	public boolean sendGame(List<Game> games){
 		int status = connectionStatus();
-		if(games.get(0).getUsername().equals(Game.ANONYMOUS) || games.get(0).getUsername().equals("null")){
-			return false;
-		}
 		if(status != CONNECTION_UP){
 			Log.d(TAG, "sendGame: connectivity issue, handling code: " + status);
 			handleConnectionStatus(status);
@@ -142,9 +144,8 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 			Toast.makeText(mContext, "Couldn't sync a few games, try again please", Toast.LENGTH_SHORT).show();
 		} else {
 			Log.d(TAG, "sendFinish: games sent, result " + result);
-			Log.d(TAG, "sendFinish: erasing id files content: " + result);
 			Toast.makeText(mContext, "All synced up!", Toast.LENGTH_SHORT).show();
-			FileHandler.write(mContext, "", true);
+			if (!mSingleGame) FileHandler.write(mContext, "", true);
 		}
 	}
 	//##END OF SENDING
@@ -195,10 +196,10 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 		}
 	}
 
-	public ArrayList<Game> getGames(String username){
+	public ArrayList<Game> getAndSaveGames(){
 		ArrayList<Game> games = new ArrayList<>();
-		if(username == null) return null;
-		if(username.equals(Game.ANONYMOUS) || username.equals("null")){
+		if(sUsername == null) return null;
+		if(sUsername.equals(Game.ANONYMOUS) || sUsername.equals("null")){
 			return games;
 		}
 		int status = connectionStatus();
@@ -210,7 +211,7 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 
 		GetGamesTask task = new GetGamesTask();
 		task.delegate = this;
-		task.execute(username);
+		task.execute(sUsername);
 
 		return games;
 	}
@@ -218,10 +219,15 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 	public void getFinish(List<Game> games) {
 		Log.d(TAG, "getFinish: finished getting games");
 		DbManager dbManager = new DbManager(mContext);
+		//logList(games);
 		dbManager.addGames(games);
-		//DbManager.closeDb();
+		dbManager.close();
 	}
 
+	public void logList(List<Game> list){
+		Log.d(TAG, "logList: started");
+		for (Game item : list) Log.d(TAG, "logList: " + GameJson.gameToJson(item));
+	}
 	//End of GETTING
 
 
@@ -282,5 +288,8 @@ public class CloudManager implements SendGameResponse, GetGameResponse {
 	}
 	public static void setUsername(String username){
 		sUsername = username;
+	}
+	public void setSingleGame(boolean value){
+		mSingleGame = value;
 	}
 }

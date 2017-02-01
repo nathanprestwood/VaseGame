@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,17 +16,15 @@ import ufpe.cin.nmf2.vasegame.database.GamesDbSchema.GameTable;
 public class DbManager {
 	private static final String TAG = "DbManager";
 	private Context mContext;
-	private static SQLiteDatabase mDatabase;
+	private SQLiteDatabase mDatabase;
 	private String mUsername;
 
 	public DbManager(Context context){
-		mContext = context.getApplicationContext();
-		mDatabase = new GameBaseHelper(mContext).getWritableDatabase();
+		mContext = context;
+		if(mDatabase == null) mDatabase = new GameBaseHelper(mContext).getWritableDatabase();
 	}
-	public static void closeDb(){
-		if(mDatabase != null){
-			mDatabase.close();
-		}
+	public void close(){
+		if (mDatabase.isOpen()) mDatabase.close();
 	}
 	private static ContentValues getContentValues(Game game){
 		ContentValues values = new ContentValues();
@@ -40,10 +37,12 @@ public class DbManager {
 	}
 	public void addGame(Game game){
 		ContentValues values = getContentValues(game);
-		mDatabase.insert(GameTable.NAME, null, values);
+		mDatabase.insertWithOnConflict(GameTable.NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 	}
 	public void addGames(List<Game> games){
-		for (Game game : games) addGame(game);
+		if(games != null)
+			for (Game game : games) addGame(game);
+		mDatabase.close();
 	}
 
 	public void updateGame(Game game) {
@@ -52,8 +51,8 @@ public class DbManager {
 		int numberOfRows = mDatabase.update(GameTable.NAME, values,
 				GameTable.Cols.UUID + " = ?",
 				new String[] { uuidString });
-		Log.d(TAG, "DbManager: updateGame: uuid: " + uuidString);
-		Log.d(TAG, "updateGame: number of games updated: " + numberOfRows);
+		//Log.d(TAG, "DbManager: updateGame: uuid: " + uuidString);
+		//Log.d(TAG, "updateGame: number of games updated: " + numberOfRows);
 	}
 	private GameCursorWrapper queryGames(String whereClause, String[] whereArgs) {
 		Cursor cursor = mDatabase.query(
@@ -65,7 +64,6 @@ public class DbManager {
 				null, // having
 				null // orderBy
 		);
-		//cursor.close();
 		return new GameCursorWrapper(cursor);
 	}
 	public class GameCursorWrapper extends CursorWrapper {
@@ -98,7 +96,7 @@ public class DbManager {
 			e.printStackTrace();
 		}
 		cursor.close();
-		//g.d("Mine", "getGames array size: " + games.size());
+		//g.d("Mine", "getAndSaveGames array size: " + games.size());
 		return games;
 	}
 	public List<Game> getHardGames(){

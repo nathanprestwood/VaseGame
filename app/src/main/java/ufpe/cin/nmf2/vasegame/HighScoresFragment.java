@@ -11,10 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import ufpe.cin.nmf2.vasegame.CloudManager.CloudManager;
 import ufpe.cin.nmf2.vasegame.CloudManager.FileHandler;
@@ -55,10 +55,16 @@ public class HighScoresFragment extends Fragment {
 		mSyncButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				CloudManager cloudManager = new CloudManager(getContext());
-				//ArrayList<Game> games = cloudManager.getGames(MenuFragment.mUsername);
-				//updateUI();
-				cloudManager.sendGames(getGamesInFile());
+				if (!mUsername.equals(Game.ANONYMOUS)) {
+					CloudManager cloudManager = new CloudManager(getContext(), false);
+					DbManager dbManager = new DbManager(getActivity());
+					cloudManager.getAndSaveGames(); //also adds them to the local database
+					cloudManager.sendGames(dbManager.getGames());
+					dbManager.close();
+					Toast.makeText(getActivity(), "Syncing", Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getActivity(), "LogIn to Sync", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 
@@ -146,7 +152,7 @@ public class HighScoresFragment extends Fragment {
 	}
 
 	private void updateUI() {
-		DbManager dbManager = new DbManager(getActivity().getApplicationContext());
+		DbManager dbManager = new DbManager(getActivity());
 		List<Game> hardGames = dbManager.getHardGames();
 		List<Game> easyGames = dbManager.getEasyGames();
 		if (mHardAdapter == null) {
@@ -165,12 +171,12 @@ public class HighScoresFragment extends Fragment {
 		} else {
 			mEasyAdapter.notifyDataSetChanged();
 		}
-		//DbManager.closeDb();
+		dbManager.close();
 	}
 	private List<Game> getGamesInFile(){
-		DbManager dbManager = new DbManager(getActivity().getApplicationContext());
+		DbManager dbManager = new DbManager(getActivity());
 		List<String> ids = FileHandler.getIds(getContext());
-		logList(ids);//show list in debug, delete later
+		//logIds(ids);//show list in debug, delete later
 		List<Game> games = dbManager.getGames();
 		List<Game> gamesInFile = new ArrayList<>();
 
@@ -179,14 +185,23 @@ public class HighScoresFragment extends Fragment {
 				gamesInFile.add(game);
 			}
 		}
-		//DbManager.closeDb();
+		dbManager.close();
 		return gamesInFile;
 	}
-	public void logList(List<String> list){
+	public void logIds(List<String> list){
 		for (String item : list) Log.d(TAG, "logList: " + item);
 	}
+
+
 	public static void setUsername(String username){
-		String[] shortUsername = username.split("@");
-		mUsername = shortUsername[0];
+		if(username != null) {
+			if(username.equals(Game.ANONYMOUS)) mUsername = username;
+			else {
+				String[] shortUsername = username.split("@");
+				mUsername = shortUsername[0];
+			}
+		} else {
+			mUsername = Game.ANONYMOUS;
+		}
 	}
 }
