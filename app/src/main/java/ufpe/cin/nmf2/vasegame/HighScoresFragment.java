@@ -1,5 +1,6 @@
 package ufpe.cin.nmf2.vasegame;
 
+import android.icu.text.TimeZoneFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.util.SortedList;
@@ -59,7 +60,7 @@ public class HighScoresFragment extends Fragment{
 				if (!mUsername.equals(Game.ANONYMOUS)) {
 					CloudManager cloudManager = new CloudManager(getContext(), false, mUsername);
 					cloudManager.getAndSaveGames(); //also adds them to the local database
-					cloudManager.sendGames(getGamesInFile());
+					cloudManager.sendGames(null);
 					Toast.makeText(getActivity(), getString(R.string.syncing), Toast.LENGTH_SHORT).show();
 				} else {
 					Toast.makeText(getActivity(), getString(R.string.login_to_sync), Toast.LENGTH_SHORT).show();
@@ -89,42 +90,9 @@ public class HighScoresFragment extends Fragment{
 		}
 	}
 	private class GameAdapter extends RecyclerView.Adapter<GameHolder> {
-		private final SortedList<Game> mGames;
+		private final List<Game> mGames;
 		private GameAdapter(List<Game> games) {
-			mGames = new SortedList<>(Game.class, new SortedList.Callback<Game>(){
-				@Override
-				public int compare(Game g1, Game g2) {
-					return (int) (g1.getDuration() - g2.getDuration());
-				}
-				@Override
-				public void onInserted(int position, int count) {
-					notifyItemRangeInserted(position, count);
-				}
-				@Override
-				public void onRemoved(int position, int count) {
-					notifyItemRangeRemoved(position, count);
-				}
-				@Override
-				public void onMoved(int fromPosition, int toPosition) {
-					notifyItemMoved(fromPosition, toPosition);
-				}
-				@Override
-				public void onChanged(int position, int count) {
-					notifyItemRangeChanged(position, count);
-				}
-				@Override
-				public boolean areContentsTheSame(Game oldItem, Game newItem) {
-					// return whether the items' visual representations are the same or not.
-					return (oldItem.getDuration() == newItem.getDuration() &&
-							oldItem.getDateForHighScores().equals(newItem.getDateForHighScores()) &&
-							oldItem.getGameType().equals(newItem.getGameType()));
-				}
-				@Override
-				public boolean areItemsTheSame(Game item1, Game item2) {
-					return item1.getId().equals(item2.getId());
-				}
-			});
-			mGames.addAll(games);
+			mGames = games;
 		}
 		@Override
 		public GameHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -143,12 +111,18 @@ public class HighScoresFragment extends Fragment{
 			//Log.d("GAdapter:getitemcount()", "mGames.size: " + mGames.size());
 			return mGames.size();
 		}
+
 	}
 
 	private void updateUI() {
 		DbManager dbManager = DbManager.getInstance(getContext());
-		List<Game> hardGames = dbManager.getHardGames();
-		List<Game> easyGames = dbManager.getEasyGames();
+		List<Game> gamesList = dbManager.getGames();
+		List<Game> hardGames = new ArrayList<>();
+		List<Game> easyGames = new ArrayList<>();
+		for (Game game : gamesList){
+			if(game.isHard()) hardGames.add(game);
+			else easyGames.add(game);
+		}
 		if (mHardAdapter == null) {
 			if(hardGames.size() != 0) {
 				mHardAdapter = new GameAdapter(hardGames);
@@ -165,19 +139,6 @@ public class HighScoresFragment extends Fragment{
 		} else {
 			mEasyAdapter.notifyDataSetChanged();
 		}
-	}
-	private List<Game> getGamesInFile(){
-		DbManager dbManager = DbManager.getInstance(getContext());
-		List<String> ids = FileHandler.getIds(getContext());
-		List<Game> games = dbManager.getGames();
-		List<Game> gamesInFile = new ArrayList<>();
-
-		for (Game game : games){
-			if(ids.contains(game.getId().toString())){
-				gamesInFile.add(game);
-			}
-		}
-		return gamesInFile;
 	}
 	public void logIds(List<String> list){
 		for (String item : list) Log.d(TAG, "logList: " + item);

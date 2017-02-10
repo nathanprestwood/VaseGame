@@ -20,15 +20,15 @@ import ufpe.cin.nmf2.vasegame.database.GamesDbSchema.GameTable;
 @SuppressWarnings("SameParameterValue")
 public class DbManager {
 	private static final String TAG = "DbManager";
-	private final Context mContext;
+	//private final Context mContext;
 	private SQLiteDatabase mDatabase;
 	@SuppressLint("StaticFieldLeak")
 	private static DbManager instance;
 
 
 	private DbManager(Context context){
-		mContext = context.getApplicationContext();
-		if(mDatabase == null) mDatabase = new GameBaseHelper(mContext).getWritableDatabase();
+	//	mContext = context.getApplicationContext();
+		if(mDatabase == null) mDatabase = new GameBaseHelper(context.getApplicationContext()).getWritableDatabase();
 	}
 	public static synchronized DbManager getInstance(Context context){
 		if (instance == null) instance = new DbManager(context);
@@ -69,7 +69,7 @@ public class DbManager {
 				whereArgs,
 				null, // groupBy
 				null, // having
-				null // orderBy
+				GameTable.Cols.DURATION + " ASC" // orderBy
 		);
 		return new GameCursorWrapper(cursor);
 	}
@@ -104,29 +104,28 @@ public class DbManager {
 			e.printStackTrace();
 		}
 		cursor.close();
-		//g.d("Mine", "getAndSaveGames array size: " + games.size());
-		return games;
-	}
-	public synchronized List<Game> getHardGames(){
-		List<Game> allGames = getGames();
-		List<Game> games = new ArrayList<>();
-		for (Game game : allGames){
-			if(game.getGameType().equals(Game.HARD)){
-				games.add(game);
-			}
-		}
-		return games;
-	}
-	public synchronized List<Game> getEasyGames(){
-		List<Game> allGames = getGames();
-		List<Game> games = new ArrayList<>();
 
-		for (Game game : allGames){
-			if(game.getGameType().equals(Game.EASY)){
-				games.add(game);
-			}
-		}
 		return games;
 	}
+	@NonNull public synchronized List<Game> getGamesWithTheseIds(List<String> ids) {
+		List<Game> games = new ArrayList<>();
+		GameCursorWrapper cursor = queryGames(null, null);
+		Game game = null;
+		try {
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				game = cursor.getGame();
+				if(ids.contains(game.getId().toString())) {
+					games.add(game);
+					ids.remove(game.getId().toString());
+				}
+				cursor.moveToNext();
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		cursor.close();
 
+		return games;
+	}
 }

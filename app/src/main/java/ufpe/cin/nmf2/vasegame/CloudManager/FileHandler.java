@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,7 +30,8 @@ public abstract class FileHandler {
 			//if erase content is true, the file will be cleared before writing
 			Log.d(TAG, "write: save game: " + gameId);
 			OutputStreamWriter writer = new OutputStreamWriter(fOutStream);
-			writer.write(gameId + "\n");
+			if(gameId.equals("")) writer.write("");
+			else writer.write(gameId + "\n");
 			writer.flush();
 			writer.close();
 		} catch (IOException e){
@@ -38,19 +40,20 @@ public abstract class FileHandler {
 	}
 	public static List<String> getIds(Context context){ // get ids stored in the file
 		List<String> output = new ArrayList<>();
-
-		try{
-			FileInputStream fInStream = context.openFileInput(FILENAME);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(fInStream));
-			String line;
-			while((line = reader.readLine()) != null){
-				output.add(line);
+		File file = new File(FILENAME);
+		if(file.exists()) {
+			try {
+				FileInputStream fInStream = context.openFileInput(FILENAME);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(fInStream));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					output.add(line);
+				}
+				fInStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			fInStream.close();
-		} catch (IOException e){
-			e.printStackTrace();
 		}
-
 		return output;
 	}
 }

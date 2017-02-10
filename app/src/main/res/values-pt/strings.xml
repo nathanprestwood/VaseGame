@@ -6,7 +6,7 @@
     <string name="network_logon_error">Faça login na sua internet. (Use um navegador)</string>
     <string name="login_error">Faça login no menu para sincronizar seu jogo!</string>
     <string name="login_to_sync">Faça login para scincronizar!</string>
-    <string name="sync_error">O jogo não foi completamente sincronizado, tente novamente. </string>
+    <string name="sync_error">O jogo não pode ser sincronizado, tente novamente.</string>
     <string name="sync_success">Tudo sincronizado!</string>
     <string name="game_saved">Pontuação salva!</string>
     <string name="syncing">Sincronizando..</string>

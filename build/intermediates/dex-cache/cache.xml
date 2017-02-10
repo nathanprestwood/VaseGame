@@ -3,12 +3,48 @@
 
     <item
         is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="92c871a22463a247e8a77a9f3fd231c278788c4a">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-panorama-10.0.1_9f8f54ce2fc09d871c1800eea9971be9cbadea4f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="c6e1f361e9d61aece9dac39b77fcc98a337a144d">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-nearby-10.0.1_e2e3ddd404084b2020bd745fb2811da36ce68205\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="9cca2818594cc5348806d6662133491e7ea0fa8d">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-auth-10.0.1_1b8ce1f7abf5a96e10098c425c3e5256d162eaa6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\24.0.0\jars\libs\internal_impl-24.0.0.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="b6763651ec29b4c95e7bbe63fc393ffcc8c4c2c5">
         <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.0.0_b9ac9f009169f4fcb95e38cc5a9bb29c0b9d4668\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="756f6297eef79784f5e356dcd4f39865028b2bd0">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-basement-10.0.1_7e07e102451fc2aeb534d421b71ae711a8a46a48\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -36,6 +72,33 @@
         revision="24.0.2"
         sha1="02741d05d4b697fba5e279e9881aaa1da0ca7c7f">
         <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-25.1.1_960d719d0d950e37c5f456184e8303d707646bc6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tasks\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="6addaba208e21c6da776d0ca75b6b23a6ccd5499">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tasks-10.0.1_b138b34e3a4b4ae3e9ab7677d8cf224cbd8c55ba\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gass\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="57c2eceb8548de84509d1ebc293fedec53231f6c">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gass-10.0.1_33bb2e7d4bb00e1c514a5cf84e91325ba8a98763\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-places\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="f3e51e9c5233b8897f61e08a6a27bc36283c2724">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-places-10.0.1_0799039fcaba350840d8c41335eb6243fecd782e\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -93,267 +156,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="e2185aff89caeb337b1ffc36d5e525d8318e7cfe">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-10.0.1_cda17f3038936dc9217200466b84edb1a62f2d87\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="d0460bf07cc3657e0be518ca01c174493951c6b8">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-ads-10.0.1_d4ea54e63d2aadf6b4c0345589503914c1a6d470\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.7\751f548c85fa49f330cecbb1875893f971b33c4e\gson-2.7.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="751f548c85fa49f330cecbb1875893f971b33c4e">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.7_ff123434fb45f3568c07687f113c51f8af65a42f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.firebase\firebase-messaging\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="4b17463c814bdc562fb0392fa3494063623a0904">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-messaging-10.0.1_4abca23c3ab08e62cad6d4af64c86879193e13c5\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics-impl\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="e871881b36b32e6bfd271a830c6eeb54ff0fc185">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-analytics-impl-10.0.1_be97c61b6e0fc9440700f6ab56090f06a7c9171a\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="a48dc0b148059764d32500be558702d5ff932058">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-identity-10.0.1_607f918ad33464d7765c16947129f86104a8ce50\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="c14f0c89f28cf782e42581ab0aba5f63af39b3d2">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-plus-10.0.1_8b9d49c470fc0aa361889e49b723dee672c21d81\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="ba6aa5e69ef31dee57208125323cee958fc67565">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-vision-10.0.1_5a69cfa9fd1176506d1aab66ec6e7400a3f332aa\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager-api\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="b1df8fa3d372a27e4e969ce00b00689ee1eed031">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-api-10.0.1_a7baaa38834e77b9d6618098a306be9076459263\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="971509bbe30bb7b971fc1c49d7b23d0d818830ac">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-10.0.1_f29d394664000ec931bffddf960fbab06069acb9\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="25438f55fc6d906a0e72f30b21487541430ede43">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-10.0.1_c64a2f8585a0affbdaf996b50d23fec6b72b072b\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.android.support\palette-v7\24.0.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="734e80dffea7bd76c18ae256822a124c30d85850">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-palette-v7-24.0.0_78c4453964263d58f09f19a582cc2d4deaa015b3\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.1.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="0fb891e8f0cfba0513043a7bb357513d229ca2cd">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.1.1_7e934f2c6cb16eded70e44b7a814dd6e787b3291\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\24.0.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="b327fbe2fad414bc38cf0ce8f7efe1a38f572837">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-mediarouter-v7-24.0.0_76f5b6ef06f16f294d71a96b1ca6ad5281dec145\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast-framework\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="df1cb17511aabbb63264a0024949d1e42502a512">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-cast-framework-10.0.1_9fcd516efaf7042a8944e097d605b00404ada94c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\AppData\Local\Android\Sdk\extras\android\m2repository\com\android\support\support-annotations\25.1.1\support-annotations-25.1.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="b59b6ee8d6ecc03e672d253800430343493a6ed8">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.1.1_267d68ad795d0cbaa1dc1ea4d67b21e74464a762\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="433f4d6aa5f21f19552afe0e6c5eff0fedba73ad">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-analytics-10.0.1_827b82bd08b2de6a8b26af588d7608cf64b3fbb2\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="b8a74793567f97eb552a19ef81b3ffe186725d2e">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_46ab8b746d1bf3bf59b527b3fd63b452e67ac0ea\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.firebase\firebase-appindexing\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="ae80d328a8548b4610ead6c624bab8c6a6984f5b">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-appindexing-10.0.1_873f04c0c94ea44c43296b9a4bf48d43cf90208a\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.firebase\firebase-config\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="ffc15e965a9e8c28f24455eedd4cac215c45d1fc">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-config-10.0.1_569fbba4ca27b338cf42637d929d748272e258bb\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage-common\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="09cf6aa1390f95157e8295d02be7868f568825fc">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-common-10.0.1_eaeed8d41dd38474db4f4006f9fab896c1b4088d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.1.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="c03bf57f358aa10d253f21989e93bcf6014b3b17">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-25.1.1_b3fc174d96e8f872c1f1b908a76e8d63c83e6286\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="92c871a22463a247e8a77a9f3fd231c278788c4a">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-panorama-10.0.1_9f8f54ce2fc09d871c1800eea9971be9cbadea4f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="c6e1f361e9d61aece9dac39b77fcc98a337a144d">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-nearby-10.0.1_e2e3ddd404084b2020bd745fb2811da36ce68205\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="9cca2818594cc5348806d6662133491e7ea0fa8d">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-auth-10.0.1_1b8ce1f7abf5a96e10098c425c3e5256d162eaa6\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="756f6297eef79784f5e356dcd4f39865028b2bd0">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-basement-10.0.1_7e07e102451fc2aeb534d421b71ae711a8a46a48\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tasks\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="6addaba208e21c6da776d0ca75b6b23a6ccd5499">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tasks-10.0.1_b138b34e3a4b4ae3e9ab7677d8cf224cbd8c55ba\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gass\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="57c2eceb8548de84509d1ebc293fedec53231f6c">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gass-10.0.1_33bb2e7d4bb00e1c514a5cf84e91325ba8a98763\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-places\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="f3e51e9c5233b8897f61e08a6a27bc36283c2724">
-        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-places-10.0.1_0799039fcaba350840d8c41335eb6243fecd782e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -387,6 +189,42 @@
         revision="24.0.2"
         sha1="8010ae6ed32828a145b25ec97bc07b7a83c6318f">
         <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-connection-10.0.1_cf77fad1de67dfbc71f4fc8b78c50715fcfafdbd\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="e2185aff89caeb337b1ffc36d5e525d8318e7cfe">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-10.0.1_cda17f3038936dc9217200466b84edb1a62f2d87\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d0460bf07cc3657e0be518ca01c174493951c6b8">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-ads-10.0.1_d4ea54e63d2aadf6b4c0345589503914c1a6d470\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.7\751f548c85fa49f330cecbb1875893f971b33c4e\gson-2.7.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="751f548c85fa49f330cecbb1875893f971b33c4e">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.7_ff123434fb45f3568c07687f113c51f8af65a42f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.firebase\firebase-messaging\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="4b17463c814bdc562fb0392fa3494063623a0904">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-messaging-10.0.1_4abca23c3ab08e62cad6d4af64c86879193e13c5\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -453,6 +291,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics-impl\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="e871881b36b32e6bfd271a830c6eeb54ff0fc185">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-analytics-impl-10.0.1_be97c61b6e0fc9440700f6ab56090f06a7c9171a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.firebase\firebase-common\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -471,12 +318,66 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="a48dc0b148059764d32500be558702d5ff932058">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-identity-10.0.1_607f918ad33464d7765c16947129f86104a8ce50\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="c14f0c89f28cf782e42581ab0aba5f63af39b3d2">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-plus-10.0.1_8b9d49c470fc0aa361889e49b723dee672c21d81\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="ba6aa5e69ef31dee57208125323cee958fc67565">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-vision-10.0.1_5a69cfa9fd1176506d1aab66ec6e7400a3f332aa\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager-api\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="b1df8fa3d372a27e4e969ce00b00689ee1eed031">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-api-10.0.1_a7baaa38834e77b9d6618098a306be9076459263\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager-v4-impl\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="f23ad0f8e58713ff4b55f61c0bbde3830378347c">
         <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-v4-impl-10.0.1_d93af1180a2a9bb633c45610f56e44718e86fd14\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="971509bbe30bb7b971fc1c49d7b23d0d818830ac">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-10.0.1_f29d394664000ec931bffddf960fbab06069acb9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="25438f55fc6d906a0e72f30b21487541430ede43">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-10.0.1_c64a2f8585a0affbdaf996b50d23fec6b72b072b\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -498,12 +399,39 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.android.support\palette-v7\24.0.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="734e80dffea7bd76c18ae256822a124c30d85850">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-palette-v7-24.0.0_78c4453964263d58f09f19a582cc2d4deaa015b3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\nmf2\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.5.0\4b0bb6bfbecbdd42b97ff400af342bfe7f32bc83\okhttp-3.5.0.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="4b0bb6bfbecbdd42b97ff400af342bfe7f32bc83">
         <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\okhttp-3.5.0_ae2adb06ef1eb7ab86a91e59d2cd32ea3bc5e02f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="0fb891e8f0cfba0513043a7bb357513d229ca2cd">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.1.1_7e934f2c6cb16eded70e44b7a814dd6e787b3291\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\24.0.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="b327fbe2fad414bc38cf0ce8f7efe1a38f572837">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-mediarouter-v7-24.0.0_76f5b6ef06f16f294d71a96b1ca6ad5281dec145\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -534,12 +462,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast-framework\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="df1cb17511aabbb63264a0024949d1e42502a512">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-cast-framework-10.0.1_9fcd516efaf7042a8944e097d605b00404ada94c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\nmf2\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.11.0\840897fcd7223a8143f1d9b6f69714e7be34fd50\okio-1.11.0.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="840897fcd7223a8143f1d9b6f69714e7be34fd50">
         <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\okio-1.11.0_2944188985dfb67d1b369d4863065bcdb2cbe95b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\AppData\Local\Android\Sdk\extras\android\m2repository\com\android\support\support-annotations\25.1.1\support-annotations-25.1.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="b59b6ee8d6ecc03e672d253800430343493a6ed8">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.1.1_267d68ad795d0cbaa1dc1ea4d67b21e74464a762\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -556,8 +502,17 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="82368367e88798b1e80daf7a8ed77c0d54c8b4e3">
+        sha1="d769f8421f85ae43635e336241b053fc7450fffa">
         <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_ebf1a2ecffd040f43b64a0eae85e627bae3d30f6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="433f4d6aa5f21f19552afe0e6c5eff0fedba73ad">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-analytics-10.0.1_827b82bd08b2de6a8b26af588d7608cf64b3fbb2\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -588,12 +543,57 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="b8a74793567f97eb552a19ef81b3ffe186725d2e">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_46ab8b746d1bf3bf59b527b3fd63b452e67ac0ea\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.firebase\firebase-appindexing\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="ae80d328a8548b4610ead6c624bab8c6a6984f5b">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-appindexing-10.0.1_873f04c0c94ea44c43296b9a4bf48d43cf90208a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.firebase\firebase-config\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="ffc15e965a9e8c28f24455eedd4cac215c45d1fc">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-config-10.0.1_569fbba4ca27b338cf42637d929d748272e258bb\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.android.support\multidex\1.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
         sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
         <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-multidex-1.0.1_0cfab3982864e222328e7e812bc07a82fb2bfadd\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage-common\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="09cf6aa1390f95157e8295d02be7868f568825fc">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-common-10.0.1_eaeed8d41dd38474db4f4006f9fab896c1b4088d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\nmf2\VaseGame\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="c03bf57f358aa10d253f21989e93bcf6014b3b17">
+        <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-25.1.1_b3fc174d96e8f872c1f1b908a76e8d63c83e6286\classes.dex" />
     </item>
     <item
         is-multidex="true"

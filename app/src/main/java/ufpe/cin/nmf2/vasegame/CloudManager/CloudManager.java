@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,10 +30,12 @@ import ufpe.cin.nmf2.vasegame.fiware.GameJson;
 public class CloudManager {
 	private static final String TAG = "CloudManager";
 	private static final int CONNECTION_UP = 0;
+	private static final int SYNCED = 0;
 	private static final int ERROR_LOGIN = 108;
 	private static final int ERROR_INTERNET_CONNECTION = 894;
 	private static final int ERROR_BAD_RESPONSE = 764;
-	private static final String ERROR_RETRIEVING_DATA = "ERROR_RETRIEVING_DATA";
+	private static final int ERROR_RETRIEVING_DATA = 62;
+	private static final int ERROR_SENDING_DATA = 147;
 	private static final String MYURL = "http://148.6.80.148:1026/v2/entities/";
 	private static final MediaType JSON  = MediaType.parse("application/json; charset=utf-8");
 
@@ -40,70 +43,88 @@ public class CloudManager {
 	private String mUsername = null;
 	private boolean mSingleGame;
 
-	private Game mGame;
-
 	public CloudManager(Context context, boolean isSingleGame, String username) {
 		mContext = context;
 		mSingleGame = isSingleGame;
 		mUsername = username;
 	}
 
-	private class SendGamesTask extends AsyncTask<List<Game>, Void, String> {
+	private class SendGamesTask extends AsyncTask<List<Game>, Void, Integer> {
+
 		@SafeVarargs
 		@Override
-		protected final String doInBackground(List<Game>... games) {
+		protected final Integer doInBackground(List<Game>... games) {
 			// params comes from the execute() call: params[0] is the url.
-			DbManager dbManager = DbManager.getInstance(mContext);
-			Log.d(TAG, "doInBackground: started SendGames task!");
-			try {
-				String result = "OK";
-				for(Game game : games[0]){
-					mGame = game;
-					if(game.getUsername().equals(Game.ANONYMOUS)){
-						game.setUsername(mUsername);
-						dbManager.updateGame(game);
+			Log.d(TAG, "doInBackground: started");
+			int result = SYNCED;
+
+			int status = connectionStatus(); //get the connection status
+
+			if(status == CONNECTION_UP){// if the connections is not up
+				Log.d(TAG, "doInBackground: connection up!");
+
+				DbManager dbManager = DbManager.getInstance(mContext); //get database instance
+				String gamesStr = "{" +
+						"  \"actionType\": \"APPEND\"," +
+						"  \"entities\": [ ";           //"header" for batch operation with FIRWARE ngsi v2
+				if (games[0] == null) games[0] = getGamesInFile(); //get the games in the file
+				if (games[0].size() > 0) { // if there are any games in the file
+					for (Game game : games[0]) {
+						if (game.getUsername().equals(Game.ANONYMOUS)) { //update username if it is Anonymoys
+							game.setUsername(mUsername);
+							dbManager.updateGame(game);
+						}
+						gamesStr += GameJson.gameToJson(game) + ","; // add entities to the payload
 					}
-					String gameStr = GameJson.gameToJson(game);
-					Log.d(TAG, "sendGameUtil: json: " + gameStr);
 
-					OkHttpClient client = new OkHttpClient();
+					gamesStr = gamesStr.substring(0, gamesStr.length() - 1); // take out the last ',' or ' '
 
-					RequestBody requestBody = RequestBody.create(JSON, gameStr);
+					gamesStr += "]}"; // finish the payload
 
-					Request request = new Request.Builder()
-							.url(MYURL)
-							.addHeader("Content-Type", "application/json; charset=UTF-8")
-							.post(requestBody)
-							.build();
+					Log.d(TAG, "doInBackground: games string: " + gamesStr); //log it
 
-					Response response = client.newCall(request).execute();
+					try {//send it to FIWARE
+						OkHttpClient client = new OkHttpClient();
 
-					Log.d(TAG, "SendGame: The response is: " + response.message());
-					Log.d(TAG, "doInBackground: response body: " + response.body().string());
-					if(response.code() != 422 && response.code() != 201){
-						String id = game.getId().toString();
-						Log.d(TAG, "SendGame: doInBackground: Error sending game " + id);
-						Log.d(TAG, "SendGame: doInBackground: saving game to file, error code: " + response.code());
-						FileHandler.write(mContext, id, false);
+						RequestBody requestBody = RequestBody.create(JSON, gamesStr);
+
+						Request request = new Request.Builder()
+								.url(MYURL)
+								.addHeader("Content-Type", "application/json; charset=UTF-8")
+								.post(requestBody)
+								.build();
+
+						Response response = client.newCall(request).execute();
+
+						Log.d(TAG, "doInBackground: The response is: " + response.message());
+						Log.d(TAG, "doInBackground: response body: " + response.body().string());
+
+						if (response.code() != 422 && response.code() != 201 && response.code() != 204) { //if it was not successful
+							result = ERROR_SENDING_DATA; //failed to retrieve data
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+						result =  ERROR_SENDING_DATA;
 					}
 				}
-				return result;
-			} catch (IOException e) {
-				e.printStackTrace();
-				FileHandler.write(mContext, mGame.getId().toString(), false);
-				return ERROR_RETRIEVING_DATA;
 			}
+			else {
+				Log.d(TAG, "doInBackground: connectivity issue, handling code: " + status);
+				handleConnectionStatus(status); //handle it
+				result = ERROR_SENDING_DATA;
+			}
+			return result;
 		}
 		// onPostExecute displays the results of the AsyncTask.
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(Integer result) {
 			Log.d(TAG, "SendGameTask: onPostExecute result: " + result);
-			if( !result.equals("OK") ){
+			if( !result.equals(SYNCED)){
 				Log.d(TAG, "sendFinish: error code: " + result);
 				Log.d(TAG, "sendFinish: saving game to file...");
 				Toast.makeText(mContext, mContext.getString(R.string.sync_error), Toast.LENGTH_SHORT).show();
 			} else {
-				Log.d(TAG, "sendFinish: games sent, result " + result);
+				Log.d(TAG, "sendFinish: games sent, result: " + result);
 				Toast.makeText(mContext, mContext.getString(R.string.sync_success), Toast.LENGTH_SHORT).show();
 				if (!mSingleGame) FileHandler.write(mContext, "", true);
 			}
@@ -112,20 +133,7 @@ public class CloudManager {
 
 
 	public void sendGames(List<Game> games){
-		if (games.size() == 0) {
-			Log.d(TAG, "sendGames: no games to send");
-			return;
-		}
-		Log.d(TAG, "sendGame: started");
-		int status = connectionStatus();
-		if(status != CONNECTION_UP){
-			Log.d(TAG, "sendGame: connectivity issue, handling code: " + status);
-			handleConnectionStatus(status);
-			return;
-		}
-		Log.d(TAG, "sendGame: connection up!");
 		SendGamesTask task = new SendGamesTask();
-		Log.d(TAG, "sendGame: executing");
 		//noinspection unchecked
 		task.execute(games);
 
@@ -236,7 +244,6 @@ public class CloudManager {
 			else if(!response.isSuccessful()){
 				Log.d(TAG, "connectionStatus: SERVER DOWN");
 				return ERROR_BAD_RESPONSE;
-
 			}
 			
 		} catch (Exception e) {
@@ -254,7 +261,11 @@ public class CloudManager {
 		else if(status == ERROR_INTERNET_CONNECTION) Toast.makeText(mContext,
 				mContext.getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 	}
-	public void setSingleGame(boolean value){
-		mSingleGame = value;
+	@NonNull private List<Game> getGamesInFile(){
+
+		DbManager dbManager = DbManager.getInstance(mContext);
+		List<String> ids = FileHandler.getIds(mContext);
+
+		return dbManager.getGamesWithTheseIds(ids);
 	}
 }

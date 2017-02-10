@@ -126,4 +126,8 @@ public class Game {
 	public void setGameType(String gameType) {
 		mGameType = gameType;
 	}
+
+	public boolean isHard(){
+		return mGameType.equals(Game.HARD);
+	}
 }

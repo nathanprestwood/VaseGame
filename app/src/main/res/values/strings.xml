@@ -10,7 +10,7 @@
     <string name="network_logon_error">Network Logon Error: logon to your network and try again. (Use a browser)</string>
     <string name="login_error">Login at the menu to sync your game!</string>
     <string name="login_to_sync">Login to sync to the could!</string>
-    <string name="sync_error">Couldn\'t sync a few games, try again please</string>
+    <string name="sync_error">Couldn\'t sync the games, try again please</string>
     <string name="sync_success">All synced up!</string>
     <string name="game_saved">Game saved!</string>
     <string name="syncing">Syncing</string>
