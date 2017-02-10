@@ -20,21 +20,22 @@ import ufpe.cin.nmf2.vasegame.CloudManager.CloudManager;
 import ufpe.cin.nmf2.vasegame.CloudManager.FileHandler;
 import ufpe.cin.nmf2.vasegame.database.DbManager;
 
-public class HighScoresFragment extends Fragment {
+public class HighScoresFragment extends Fragment{
 	private static final String TAG = "HighScoresFragment";
+	private static final String USERNAME = "USERNAME";
 	private RecyclerView mHardGameRecyclerView;
 	private RecyclerView mEasyGameRecyclerView;
-	private Button mSyncButton;
-	private TextView mUsernameTextView;
 	private GameAdapter mHardAdapter;
 	private GameAdapter mEasyAdapter;
-	private static String mUsername;
+	private String mUsername;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	public View onCreateView(LayoutInflater inflater, final ViewGroup container,
 	                         Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.high_scores_fragment, container, false);
+
+		mUsername = getArguments().getString(USERNAME, Game.ANONYMOUS);
 
 		mHardGameRecyclerView = (RecyclerView) view.findViewById(R.id.hard_game_recycler_view);
 		mHardGameRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -42,28 +43,26 @@ public class HighScoresFragment extends Fragment {
 		mEasyGameRecyclerView = (RecyclerView) view.findViewById(R.id.easy_game_recycler_view);
 		mEasyGameRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-		mUsernameTextView = (TextView) view.findViewById(R.id.high_score_username_text_view);
+		TextView usernameTextView = (TextView) view.findViewById(R.id.high_score_username_text_view);
 		if(mUsername != null){
-			mUsernameTextView.setText(mUsername);
+			usernameTextView.setText(mUsername);
 		} else {
-			mUsernameTextView.setText(Game.ANONYMOUS);
+			usernameTextView.setText(Game.ANONYMOUS);
 		}
 
-		mSyncButton = (Button) view.findViewById(R.id.high_score_sync_button);
-		mSyncButton.setText(R.string.sync);
+		Button syncButton = (Button) view.findViewById(R.id.high_score_sync_button);
+		syncButton.setText(R.string.sync);
 
-		mSyncButton.setOnClickListener(new View.OnClickListener() {
+		syncButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (!mUsername.equals(Game.ANONYMOUS)) {
-					CloudManager cloudManager = new CloudManager(getContext(), false);
-					DbManager dbManager = new DbManager(getActivity());
+					CloudManager cloudManager = new CloudManager(getContext(), false, mUsername);
 					cloudManager.getAndSaveGames(); //also adds them to the local database
-					cloudManager.sendGames(dbManager.getGames());
-					dbManager.close();
-					Toast.makeText(getActivity(), "Syncing", Toast.LENGTH_SHORT).show();
+					cloudManager.sendGames(getGamesInFile());
+					Toast.makeText(getActivity(), getString(R.string.syncing), Toast.LENGTH_SHORT).show();
 				} else {
-					Toast.makeText(getActivity(), "LogIn to Sync", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), getString(R.string.login_to_sync), Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -73,25 +72,25 @@ public class HighScoresFragment extends Fragment {
 		return view;
 	}
 	private class GameHolder extends RecyclerView.ViewHolder{
-		private TextView mTitleTextView;
-		private TextView mDateTextView;
+		private final TextView mTitleTextView;
+		private final TextView mDateTextView;
 
 		private Game mGame;
 
-		public GameHolder(View itemView) {
+		private GameHolder(View itemView) {
 			super(itemView);
 			mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_game_title_text_view);
 			mDateTextView = (TextView) itemView.findViewById(R.id.list_item_game_date_text_view);
 		}
-		public void bindGame(Game game){
+		private void bindGame(Game game){
 			mGame = game;
 			mTitleTextView.setText(mGame.getTime());
-			mDateTextView.setText(mGame.getDate());
+			mDateTextView.setText(mGame.getDateForHighScores());
 		}
 	}
 	private class GameAdapter extends RecyclerView.Adapter<GameHolder> {
-		private SortedList<Game> mGames;
-		public GameAdapter(List<Game> games) {
+		private final SortedList<Game> mGames;
+		private GameAdapter(List<Game> games) {
 			mGames = new SortedList<>(Game.class, new SortedList.Callback<Game>(){
 				@Override
 				public int compare(Game g1, Game g2) {
@@ -117,7 +116,7 @@ public class HighScoresFragment extends Fragment {
 				public boolean areContentsTheSame(Game oldItem, Game newItem) {
 					// return whether the items' visual representations are the same or not.
 					return (oldItem.getDuration() == newItem.getDuration() &&
-							oldItem.getDate().equals(newItem.getDate()) &&
+							oldItem.getDateForHighScores().equals(newItem.getDateForHighScores()) &&
 							oldItem.getGameType().equals(newItem.getGameType()));
 				}
 				@Override
@@ -141,18 +140,13 @@ public class HighScoresFragment extends Fragment {
 		}
 		@Override
 		public int getItemCount() {
-			Log.d("GAdapter:getitemcount()", "mGames.size: " + mGames.size());
+			//Log.d("GAdapter:getitemcount()", "mGames.size: " + mGames.size());
 			return mGames.size();
 		}
 	}
-	@Override
-	public void onResume() {
-		super.onResume();
-		updateUI();
-	}
 
 	private void updateUI() {
-		DbManager dbManager = new DbManager(getActivity());
+		DbManager dbManager = DbManager.getInstance(getContext());
 		List<Game> hardGames = dbManager.getHardGames();
 		List<Game> easyGames = dbManager.getEasyGames();
 		if (mHardAdapter == null) {
@@ -171,12 +165,10 @@ public class HighScoresFragment extends Fragment {
 		} else {
 			mEasyAdapter.notifyDataSetChanged();
 		}
-		dbManager.close();
 	}
 	private List<Game> getGamesInFile(){
-		DbManager dbManager = new DbManager(getActivity());
+		DbManager dbManager = DbManager.getInstance(getContext());
 		List<String> ids = FileHandler.getIds(getContext());
-		//logIds(ids);//show list in debug, delete later
 		List<Game> games = dbManager.getGames();
 		List<Game> gamesInFile = new ArrayList<>();
 
@@ -185,23 +177,10 @@ public class HighScoresFragment extends Fragment {
 				gamesInFile.add(game);
 			}
 		}
-		dbManager.close();
 		return gamesInFile;
 	}
 	public void logIds(List<String> list){
 		for (String item : list) Log.d(TAG, "logList: " + item);
 	}
 
-
-	public static void setUsername(String username){
-		if(username != null) {
-			if(username.equals(Game.ANONYMOUS)) mUsername = username;
-			else {
-				String[] shortUsername = username.split("@");
-				mUsername = shortUsername[0];
-			}
-		} else {
-			mUsername = Game.ANONYMOUS;
-		}
-	}
 }

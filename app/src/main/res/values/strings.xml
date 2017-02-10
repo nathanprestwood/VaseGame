@@ -1,8 +1,19 @@
 <resources>
     <string name="app_name">GetMe41!</string>
+    <string name="help_button">Help</string>
+    <string name="help_text">\tThe goal of the game is simple, get 41 in any bucket. There are three buckets with capacity for 81, 51 and 31 each.\n\n\t
+    You can only fill in a bucket completely or empty it completely but you can also transfer water from one to another until either on bucket is full or the other is empty.\n\n\t
+    The time you take will be recorded and your games will be stored in your phone and if you sign in with a Google account it will also be saved in the cloud.\n\n\t
+    If you play when you don\'t have internet access don\'t forget to sync your games by tapping in Score and then Sync.\n
+    \n\n\t\t That\'s it! You\'re ready to play!</string>
     <string name="connection_error">Impossible to sign in: no internet connection.</string>
     <string name="network_logon_error">Network Logon Error: logon to your network and try again. (Use a browser)</string>
-    <string name="login_error">Login Error: Login at the menu and try again.</string>
+    <string name="login_error">Login at the menu to sync your game!</string>
+    <string name="login_to_sync">Login to sync to the could!</string>
+    <string name="sync_error">Couldn\'t sync a few games, try again please</string>
+    <string name="sync_success">All synced up!</string>
+    <string name="game_saved">Game saved!</string>
+    <string name="syncing">Syncing</string>
     <string name="fulfill">Fulfill</string>
     <string name="empty">Empty</string>
     <string name="congrats">Congratulations!</string>
@@ -18,7 +29,7 @@
     <string name="scores">Scores</string>
     <string name="signin_error">The sign in failed, try again please</string>
     <string name="hard_warning">Careful! Now you can\'t empty buckets!</string>
-    <string name="login">Log In</string>
     <string name="greeting">Welcome, </string>
     <string name="sync">Sync</string>
+    <string name="bucket">bucket</string>
 </resources>

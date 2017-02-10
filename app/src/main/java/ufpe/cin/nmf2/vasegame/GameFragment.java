@@ -1,5 +1,6 @@
 package ufpe.cin.nmf2.vasegame;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.ClipDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -20,12 +21,15 @@ import java.util.Locale;
 import java.util.UUID;
 
 import ufpe.cin.nmf2.vasegame.CloudManager.CloudManager;
+import ufpe.cin.nmf2.vasegame.CloudManager.FileHandler;
 import ufpe.cin.nmf2.vasegame.database.DbManager;
 
 public class GameFragment extends Fragment {
 	private static final String TAG = "GameFragment";
-	private static String sGameType;
-	private static String mUsername;
+	private static final String GAMETYPE = "GAMETYPE";
+	private static final String USERNAME = "USERNAME";
+	private String mGameType;
+	private String mUsername;
 
 	private DbManager mDbManager;
 	private boolean mTimerStarted;
@@ -53,7 +57,7 @@ public class GameFragment extends Fragment {
 
 	private TextView mTimerTextView;
 
-	private Counter mCounter = new Counter(3600000, 10);
+	private Counter mCounter = new Counter();
 
 	private Button mResetButton;
 
@@ -66,19 +70,25 @@ public class GameFragment extends Fragment {
 	                         Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.game_fragment, container, false);
 		setUpLayout(view);
-		Bundle bundle = getArguments();
+
+		mGameType = getArguments().getString(GAMETYPE);
+		mUsername = getArguments().getString(USERNAME, Game.ANONYMOUS); // if no username is found in the args,
+		//mUsername receives Game.ANONYMOUS.
+
+		Log.d(TAG, "onCreateView: mUsername: " + mUsername);
+		Log.d(TAG, "onCreateView: mGameType: " + mGameType);
 
 		mFragmentActivity = getActivity();
 
-		mDbManager = new DbManager(getContext());
+		mDbManager = DbManager.getInstance(getContext());
 
 		mFirstAnimator = new BucketAnimator(mFirstDrawable);
 		mSecondAnimator = new BucketAnimator(mSecondDrawable);
 		mThirdAnimator = new BucketAnimator(mThirdDrawable);
 
-		if(sGameType.equals(Game.HARD)){
+		if(mGameType.equals(Game.HARD)){
 			Toast.makeText(this.getContext(), R.string.hard_warning,
-					Toast.LENGTH_LONG).show();
+					Toast.LENGTH_SHORT).show();
 		}
 
 		mFirstButton.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +141,7 @@ public class GameFragment extends Fragment {
 			public void onClick(View v) {
 				reset();
 				mCounter.cancel();
-				mCounter = new Counter(3600000, 10);
+				mCounter = new Counter();
 			}
 		});
 
@@ -139,11 +149,17 @@ public class GameFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				mSaveButton.setEnabled(false);
-				Game game = new Game(UUID.randomUUID(), mUsername, sGameType, mCounter.getTime());
+				Game game = new Game(UUID.randomUUID(), mUsername, mGameType, mCounter.getTime());
 				mDbManager.addGame(game);
-				Toast.makeText(getActivity(), "Game saved!", Toast.LENGTH_SHORT).show();
-				CloudManager cloudManager = new CloudManager(getContext(), true);
-				cloudManager.sendGame(game);
+				Toast.makeText(getActivity(), getString(R.string.game_saved), Toast.LENGTH_SHORT).show();
+				if(!mUsername.equals(Game.ANONYMOUS)) {
+					CloudManager cloudManager = new CloudManager(getContext(), true, mUsername);
+					cloudManager.sendGame(game);
+				}
+				else {
+					FileHandler.write(getContext(), game.getId().toString(), false);
+					Toast.makeText(mFragmentActivity, getString(R.string.login_to_sync), Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 		reset();
@@ -153,7 +169,7 @@ public class GameFragment extends Fragment {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		mDbManager.close();
+		//mDbManager.close();
 		Log.d(TAG, "onDestroyView: database closed");
 	}
 
@@ -180,8 +196,8 @@ public class GameFragment extends Fragment {
 		private int mMinutes;
 		private int mSeconds;
 		private int mCents;
-		private Counter (long a, long b){
-			super(a, b);
+		private Counter(){
+			super((long) 3600000, (long) 10);
 		}
 		public void onTick(long millisUntilFinished) {
 			mCents++;
@@ -196,6 +212,7 @@ public class GameFragment extends Fragment {
 			String string = String.format(Locale.US, "%02d:%02d:%02d", mMinutes, mSeconds, mCents);
 			mTimerTextView.setText(string);
 		}
+		@SuppressLint("SetTextI18n")
 		public void onFinish() {
 			mTimerTextView.setText("Time's over. You suck!");
 			try {
@@ -205,11 +222,11 @@ public class GameFragment extends Fragment {
 				e.printStackTrace();
 			}
 		}
-		public long getTime(){
+		private long getTime(){
 			return mMinutes*60*100 + mSeconds*100 + mCents;
 		}
 	}
-	private boolean checkWin(){
+	private void checkWin(){
 		if(mFirstTextView.getText().toString().equals("41") ||
 				mSecondTextView.getText().toString().equals("41") ||
 				mThirdTextView.getText().toString().equals("41")) {
@@ -222,9 +239,14 @@ public class GameFragment extends Fragment {
 			mFirstButton.setEnabled(false);
 			mSecondButton.setEnabled(false);
 			mThirdButton.setEnabled(false);
-			return true;
+
+			//deactivate toggle buttons
+			mFirstToggleButton.setEnabled(false);
+			mSecondToggleButton.setEnabled(false);
+			mThirdToggleButton.setEnabled(false);
+
+			return;
 		}
-		return false;
 	}
 	private void reset(){
 		mFirstButton.setText(R.string.fulfill);
@@ -242,6 +264,10 @@ public class GameFragment extends Fragment {
 		mFirstDrawable.setLevel(0);
 		mSecondDrawable.setLevel(0);
 		mThirdDrawable.setLevel(0);
+
+		mFirstToggleButton.setEnabled(true);
+		mSecondToggleButton.setEnabled(true);
+		mThirdToggleButton.setEnabled(true);
 
 		mTimerStarted = false;
 		mCounter.cancel();
@@ -289,7 +315,7 @@ public class GameFragment extends Fragment {
 		}
 	}
 	private synchronized void initializeBucket(Button button, TextView textView, int volume, BucketAnimator animator){
-		if (button.getText().equals("Fulfill")){
+		if (button.getText().equals(getString(R.string.fulfill))){
 			animator.mHandler.removeCallbacks(animator.mRunnable);
 			animator.mFulfill = true;
 			animator.mFinalLevel = BucketAnimator.MAX_LEVEL;
@@ -297,9 +323,9 @@ public class GameFragment extends Fragment {
 			String maxVolume = "" + volume;
 			button.setText(R.string.empty);
 			textView.setText(maxVolume);
-			Log.d(TAG, "initializeBucket:" + sGameType);
+			Log.d(TAG, "initializeBucket:" + mGameType);
 		} else {
-			if (sGameType.equals(Game.HARD)){
+			if (mGameType.equals(Game.HARD)){
 				textView.setText("0");
 				button.setEnabled(false);
 			} else {
@@ -406,27 +432,18 @@ public class GameFragment extends Fragment {
 			}
 		}
 	}
-	public static String getGameType() {
-		return sGameType;
-	}
-	public static void setGameType(String gameType) {
-		GameFragment.sGameType = gameType;
-	}
-	public static void setUsername(String username) {
-		mUsername = username;
-	}
 
 	public class BucketAnimator {
 
-		public static final int MAX_LEVEL = 10000;
+		private static final int MAX_LEVEL = 10000;
 		private final static int DELAY = 5;
 		private final static int LEVEL_DIFF = 500;
 		private ClipDrawable mDrawable;
 		private int mFinalLevel;
 		private int mLevel;
 		private boolean mFulfill;
-		private Handler mHandler = new Handler();
-		private Runnable mRunnable = new Runnable() {
+		private final Handler mHandler = new Handler();
+		private final Runnable mRunnable = new Runnable() {
 			@Override
 			public void run() {
 				mLevel = mDrawable.getLevel();
@@ -434,7 +451,7 @@ public class GameFragment extends Fragment {
 			}
 		};
 
-		public BucketAnimator(ClipDrawable drawable) {
+		private BucketAnimator(ClipDrawable drawable) {
 			mDrawable = drawable;
 		}
 
@@ -463,6 +480,8 @@ public class GameFragment extends Fragment {
 			}
 		}
 	}
+
+
 	public synchronized void changeBucketLevel(final ClipDrawable mDrawable, final int mFinalLevel){
 		mFragmentActivity.runOnUiThread(new Runnable() {
 			@Override

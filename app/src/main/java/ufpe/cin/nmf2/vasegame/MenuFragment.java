@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,57 +26,56 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 
-import ufpe.cin.nmf2.vasegame.CloudManager.CloudManager;
 
-
-public class MenuFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener{
+public class MenuFragment extends Fragment{
 	private static final int RC_SIGN_IN = 9001;
 	private static final String TAG = "MenuActivity";
+	private static final String USERNAME = "USERNAME";
 	private Button mPlayHardButton;
 	private Button mPlayEasyButton;
+	private Button mHelp;
 	private SignInButton mSignInButton;
 	private Button mHighScoresButton;
 	public static GoogleSignInAccount mAccount;
-	public String mUsername;
+	public String mUsername = null;
 
 	private GoogleApiClient mGoogleApiClient;
 
 	private TextView mWelcomeTextView;
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+	public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		View view = inflater.inflate(R.layout.menu_fragment, container, false);
 
-		GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-				.requestEmail()
-				.build();
-
-		mGoogleApiClient = new GoogleApiClient.Builder(this.getContext())
-				.enableAutoManage(this.getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
-				.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-				.build();
-
 		setUpLayout(view);
+
 		mPlayEasyButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				GameFragment.setUsername(mUsername);
 				Intent intent = new Intent(getActivity(), EasyGameActivity.class);
+				if (mUsername != null) intent.putExtra(USERNAME, mUsername);
 				startActivity(intent);
 			}
 		});
 		mPlayHardButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				GameFragment.setUsername(mUsername);
 				Intent intent = new Intent(getActivity(), HardGameActivity.class);
+				if (mUsername != null) intent.putExtra(USERNAME, mUsername);
+				startActivity(intent);
+			}
+		});
+		mHelp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(), HelpActivity.class);
 				startActivity(intent);
 			}
 		});
 		mHighScoresButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				HighScoresFragment.setUsername(mUsername);
 				Intent intent = new Intent(getActivity(), HighScoresActivity.class);
+				if (mUsername != null) intent.putExtra(USERNAME, mUsername);
 				startActivity(intent);
 			}
 		});
@@ -92,8 +93,61 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 			}
 		});
 
+		//set up Google sign in resources
+		SetUpSignInTask task = new SetUpSignInTask();
+		task.execute(new Void[1]);
+
 		return view;
 	}
+	private class SetUpSignInTask extends AsyncTask<Void, Void, Void> implements  GoogleApiClient.OnConnectionFailedListener{
+		@Override
+		protected Void doInBackground(Void... params) {
+			GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+					.requestEmail()
+					.build();
+
+			mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+					.enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
+					.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+					.build();
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void aVoid) {
+			super.onPostExecute(aVoid);
+			//Silent SignIn
+			if(mGoogleApiClient != null) {
+				OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+				if (opr.isDone()) {
+					// If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+					// and the GoogleSignInResult will be available instantly.
+					//Log.d(TAG, "Got cached sign-in");
+					GoogleSignInResult result = opr.get();
+					handleSignInResult(result);
+				} else {
+					// If the user has not previously signed in on this device or the sign-in has expired,
+					// this asynchronous branch will attempt to sign in the user silently.  Cross-device
+					// single sign-on will occur in this branch.
+					opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+						@Override
+						public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+							handleSignInResult(googleSignInResult);
+						}
+					});
+				}
+			}
+		}
+
+		@Override
+		public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+			Log.d(TAG, "onConnectionFailed: login conection failed");
+			mSignInButton.setVisibility(View.VISIBLE);
+			mWelcomeTextView.setVisibility(View.INVISIBLE);
+			Toast.makeText(getContext(), getString(R.string.signin_error), Toast.LENGTH_LONG).show();
+		}
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -106,24 +160,28 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 	}
 	private void handleSignInResult(GoogleSignInResult result) {
 		mAccount = result.getSignInAccount();
-		//Log.d(TAG, "handleSignInResult: " + result.isSuccess() + " mAccount: " + mAccount);
+		Log.d(TAG, "handleSignInResult: " + result.isSuccess() + " mAccount: " + mAccount);
 
 		if (result.isSuccess() && mAccount != null) {
 			// Signed in successfully, show authenticated UI.
 			mUsername = mAccount.getEmail();
-			if(mUsername != null) CloudManager.setUsername(mUsername);
-			updateUI();
-		}
-	}
 
-	private void updateUI() {
-		if(mAccount != null) {
-			mSignInButton.setVisibility(View.GONE);
-			mWelcomeTextView.setVisibility(View.VISIBLE);
-			mWelcomeTextView.setText(getString(R.string.greeting) + " " + mAccount.getDisplayName() + "!");
-			mWelcomeTextView.setSelected(true);
-			mWelcomeTextView.setSingleLine();
-			//Log.d(TAG, "mAccount.getDisplayName(): " + mAccount.getDisplayName());
+			Log.d(TAG, "handleSignInResult: username: " + mUsername);
+			String displayName = mAccount.getDisplayName();
+			Log.d(TAG, "handleSignInResult: displayName: " + displayName);
+
+			if(mUsername != null && displayName != null) {
+				mSignInButton.setVisibility(View.INVISIBLE);
+				mWelcomeTextView.setVisibility(View.VISIBLE);
+				mWelcomeTextView.setText(getString(R.string.greeting) + " " + displayName + "!");
+				mWelcomeTextView.setSelected(true);
+				mWelcomeTextView.setSingleLine();
+			} else {
+				mUsername = null;
+			}
+		} else {
+			mSignInButton.setVisibility(View.VISIBLE);
+			mWelcomeTextView.setVisibility(View.INVISIBLE);
 		}
 	}
 
@@ -134,33 +192,32 @@ public class MenuFragment extends Fragment implements GoogleApiClient.OnConnecti
 		mSignInButton = (SignInButton) v.findViewById(R.id.sign_in_button);
 		mWelcomeTextView = (TextView) v.findViewById(R.id.welcome_text_view);
 		mWelcomeTextView.setVisibility(TextView.INVISIBLE);
+		mHelp = (Button) v.findViewById(R.id.help_button);
 	}
 
-	@Override
-	public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-		Toast.makeText(this.getContext(), getString(R.string.signin_error), Toast.LENGTH_LONG).show();
-	}
 	@Override
 	public void onStart() {
 		super.onStart();
 
-		OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-		if (opr.isDone()) {
-			// If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-			// and the GoogleSignInResult will be available instantly.
-			//Log.d(TAG, "Got cached sign-in");
-			GoogleSignInResult result = opr.get();
-			handleSignInResult(result);
-		} else {
-			// If the user has not previously signed in on this device or the sign-in has expired,
-			// this asynchronous branch will attempt to sign in the user silently.  Cross-device
-			// single sign-on will occur in this branch.
-			opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-				@Override
-				public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-					handleSignInResult(googleSignInResult);
-				}
-			});
+		if(mGoogleApiClient != null) {
+			OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+			if (opr.isDone()) {
+				// If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+				// and the GoogleSignInResult will be available instantly.
+				//Log.d(TAG, "Got cached sign-in");
+				GoogleSignInResult result = opr.get();
+				handleSignInResult(result);
+			} else {
+				// If the user has not previously signed in on this device or the sign-in has expired,
+				// this asynchronous branch will attempt to sign in the user silently.  Cross-device
+				// single sign-on will occur in this branch.
+				opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+					@Override
+					public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+						handleSignInResult(googleSignInResult);
+					}
+				});
+			}
 		}
 	}
 }

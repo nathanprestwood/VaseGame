@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">GetMe41!</string>
+    <string name="help_button">Ajuda</string>
+    <string name="help_text">\tO objetivo do jogo é simples, obter 41 em qualquer balde. Existem três baldes com capacidade para 81, 51 e 31 cada.\n\n\tVocê só pode preencher os baldes completamente ou esvaziá-los completamente, mas você também pode transferir água de um para outro até que um balde encha ou o outro esvazie.\n\n\tO tempo que você leva será gravado e seus jogos serão armazenados em seu telefone. Se você fizer login com uma Conta do Google, eles também serão salvos na nuvem.\n\n\tSe você jogar quando não tiver acesso à internet não se esqueça de sincronizar seus jogos no Menu em Pontuaçãos e, em seguida, Sincronizar.\n\n\n\t\tÉ isso aí! Você está pronto para jogar!</string>
+    <string name="connection_error">Impossível logar: sem conexão.</string>
+    <string name="network_logon_error">Faça login na sua internet. (Use um navegador)</string>
+    <string name="login_error">Faça login no menu para sincronizar seu jogo!</string>
+    <string name="login_to_sync">Faça login para scincronizar!</string>
+    <string name="sync_error">O jogo não foi completamente sincronizado, tente novamente. </string>
+    <string name="sync_success">Tudo sincronizado!</string>
+    <string name="game_saved">Pontuação salva!</string>
+    <string name="syncing">Sincronizando..</string>
+    <string name="fulfill">Encher</string>
+    <string name="empty">Esvaziar</string>
+    <string name="congrats">Parabéns!</string>
+    <string name="max_81">\nMáx.: 81</string>
+    <string name="max_51">\nMáx.: 51</string>
+    <string name="max_31">\nMáx.: 31</string>
+    <string name="reset">Resetar</string>
+    <string name="save">Salvar</string>
+    <string name="hard_mode">Modo\nDifícil</string>
+    <string name="easy_mode">Modo\nFácil</string>
+    <string name="hard_type">DIFÍCIL</string>
+    <string name="easy_type">FÁCIL</string>
+    <string name="scores">Pontuações</string>
+    <string name="hard_warning">Cuidado! Agora você não pode esvaziar baldes!</string>
+    <string name="greeting">Bem-vindo, </string>
+    <string name="sync">Sincronizar</string>
+    <string name="bucket">Balde</string>
+</resources>

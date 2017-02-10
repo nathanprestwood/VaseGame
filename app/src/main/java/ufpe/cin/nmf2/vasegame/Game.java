@@ -10,7 +10,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -47,18 +46,22 @@ public class Game {
 		mDate = date;
 	}
 
-	public String getDate() {
+	public String getDateForHighScores() {
 		return (new SimpleDateFormat("EEEE, MMM dd, yyyy", Locale.getDefault()))
+				.format(mDate);
+	}
+	public String getDate() {
+		return (new SimpleDateFormat("yyyy/MM/dd", Locale.US))
 				.format(mDate);
 	}
 
 	public void setDate(String date) {
-		DateFormat format = new SimpleDateFormat("EEEE, MMM dd, yyyy", Locale.getDefault());
+		DateFormat format = new SimpleDateFormat("yyyy/MM/dd", Locale.US);
 		try {
 			mDate = format.parse(date);
 		} catch (Exception e) {
+			Log.d(TAG, "setDate: " + date);
 			e.printStackTrace();
-			Log.d(TAG, "setDate: ");
 			mDate = new Date();
 		}
 	}
@@ -68,15 +71,6 @@ public class Game {
 		int seconds = (int) (mDuration - minutes * 6000) / 100;
 		int centis = (int) (mDuration) % 100;
 		return String.format(Locale.getDefault(), "%02d:%02d:%02d", minutes, seconds, centis);
-	}
-
-	public static List<Game> getExampleGames() {
-		List<Game> games = new ArrayList<>();
-		for (int i = 0; i < 100; i++) {
-			Game game = new Game(UUID.randomUUID(), Game.ANONYMOUS, i % 2 == 1 ? Game.HARD : Game.EASY, 1000 + (int) (1000 * i * Math.random()));
-			games.add(game);
-		}
-		return games;
 	}
 
 	public String getJsonId() {
@@ -99,6 +93,10 @@ public class Game {
 
 	public UUID getId() {
 		return mId;
+	}
+
+	public Date getDateInstance(){
+		return mDate != null ? mDate : new Date();
 	}
 
 	public void setId(UUID mId) {

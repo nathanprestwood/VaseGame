@@ -1,5 +1,7 @@
 package ufpe.cin.nmf2.vasegame.fiware;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
@@ -10,8 +12,11 @@ import java.util.Locale;
 
 import ufpe.cin.nmf2.vasegame.Game;
 
+@SuppressWarnings("ALL")
 public class GameJson {
 	private static final String TYPE = "GetMe41Game";
+	private static final String TAG = "GameJson";
+	@SuppressWarnings({"SameParameterValue", "CanBeFinal"})
 	public class Id{
 		String value;
 		String type;
@@ -24,6 +29,7 @@ public class GameJson {
 			return value;
 		}
 	}
+	@SuppressWarnings({"SameParameterValue", "CanBeFinal"})
 	public class Username{
 		String value;
 		String type;
@@ -36,6 +42,7 @@ public class GameJson {
 			return value;
 		}
 	}
+	@SuppressWarnings({"SameParameterValue", "CanBeFinal"})
 	public class GameType{
 		String value;
 		String type;
@@ -48,6 +55,7 @@ public class GameJson {
 			return value;
 		}
 	}
+	@SuppressWarnings({"SameParameterValue", "CanBeFinal"})
 	public class Duration{
 		String value;
 		String type;
@@ -60,6 +68,7 @@ public class GameJson {
 			return value;
 		}
 	}
+	@SuppressWarnings({"SameParameterValue", "CanBeFinal"})
 	public class MyDate{
 		String value;
 		String type;
@@ -75,11 +84,11 @@ public class GameJson {
 	private String id;
 	private String type;
 
-	Id gameId;
-	Username gameUsername;
-	GameType gameType;
-	Duration gameDuration;
-	MyDate gameDate;
+	private Id gameId;
+	private Username gameUsername;
+	private GameType gameType;
+	private Duration gameDuration;
+	private MyDate gameDate;
 
 	private GameJson(){
 
@@ -96,9 +105,9 @@ public class GameJson {
 		gameDate = new MyDate(getDateFromGame(g), "Date");
 	}
 	private GameJson(Game g){
-
 		this.id = g.getUsername() + g.getId();
 		this.type = TYPE;
+
 		gameId = new Id(g.getId().toString(), "UUID");
 		gameUsername = new Username(g.getUsername(), "String");
 		gameType = new GameType(g.getGameType(), "String");
@@ -106,26 +115,19 @@ public class GameJson {
 		gameDate = new MyDate(getDateFromGame(g), "Date");
 	}
 	private String getDateFromGame(Game g){
-		DateFormat originalFormat = new SimpleDateFormat("EEEE, MMM dd, yyyy", Locale.getDefault());
-		DateFormat targetFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.ROOT);
-		Date date = null;
-		try {
-			date = originalFormat.parse(g.getDate());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return targetFormat.format(date);
+		DateFormat targetFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.US);
+		return targetFormat.format(g.getDateInstance());
 	}
 	public Date getDateForGame(){
-		DateFormat originalFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.ROOT);
-
+		DateFormat originalFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.US);
 		Date date = null;
 		try {
 			date = originalFormat.parse(this.gameDate.toString());
 
 		} catch (ParseException e) {
-
 			e.printStackTrace();
+			Log.d(TAG, "getDateForGame: " + gameDate.toString());
+			date = new Date();
 		}
 		return date;
 	}

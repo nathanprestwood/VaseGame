@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,6 +27,7 @@ public abstract class FileHandler {
 			FileOutputStream fOutStream = context.openFileOutput(FILENAME,
 					eraseContent ? Context.MODE_PRIVATE : Context.MODE_APPEND);
 			//if erase content is true, the file will be cleared before writing
+			Log.d(TAG, "write: save game: " + gameId);
 			OutputStreamWriter writer = new OutputStreamWriter(fOutStream);
 			writer.write(gameId + "\n");
 			writer.flush();
