@@ -57,14 +57,13 @@ public class GameJson {
 	}
 	@SuppressWarnings({"SameParameterValue", "CanBeFinal"})
 	public class Duration{
-		String value;
+		long value;
 		String type;
-		Duration(Long v, String t){
-			value = Long.toString(v);
+		Duration(long v, String t){
+			value = v;
 			type = t;
 		}
-		@Override
-		public String toString(){
+		public long getValue(){
 			return value;
 		}
 	}
@@ -81,14 +80,14 @@ public class GameJson {
 			return value;
 		}
 	}
-	private String id;
-	private String type;
-
 	private Id gameId;
 	private Username gameUsername;
 	private GameType gameType;
 	private Duration gameDuration;
 	private MyDate gameDate;
+
+	private String id;
+	private String type;
 
 	private GameJson(){
 
@@ -140,7 +139,6 @@ public class GameJson {
 	public String toString(){
 		return new Gson().toJson(this);
 	}
-
 
 	public MyDate getGameDate() {
 		return gameDate;

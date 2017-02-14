@@ -21,7 +21,7 @@ import ufpe.cin.nmf2.vasegame.CloudManager.CloudManager;
 import ufpe.cin.nmf2.vasegame.CloudManager.FileHandler;
 import ufpe.cin.nmf2.vasegame.database.DbManager;
 
-public class HighScoresFragment extends Fragment{
+public class HighScoresFragment extends Fragment implements GetGameFinish{
 	private static final String TAG = "HighScoresFragment";
 	private static final String USERNAME = "USERNAME";
 	private RecyclerView mHardGameRecyclerView;
@@ -29,6 +29,7 @@ public class HighScoresFragment extends Fragment{
 	private GameAdapter mHardAdapter;
 	private GameAdapter mEasyAdapter;
 	private String mUsername;
+	private HighScoresFragment mThis = this;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, final ViewGroup container,
@@ -52,16 +53,15 @@ public class HighScoresFragment extends Fragment{
 		}
 
 		Button syncButton = (Button) view.findViewById(R.id.high_score_sync_button);
-		syncButton.setText(R.string.sync);
 
 		syncButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (!mUsername.equals(Game.ANONYMOUS)) {
 					CloudManager cloudManager = new CloudManager(getContext(), false, mUsername);
-					cloudManager.getAndSaveGames(); //also adds them to the local database
+					cloudManager.getAndSaveGames(mThis); //also adds them to the local database
 					cloudManager.sendGames(null);
-					Toast.makeText(getActivity(), getString(R.string.syncing), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), getString(R.string.syncing), Toast.LENGTH_LONG).show();
 				} else {
 					Toast.makeText(getActivity(), getString(R.string.login_to_sync), Toast.LENGTH_SHORT).show();
 				}
@@ -108,7 +108,7 @@ public class HighScoresFragment extends Fragment{
 		}
 		@Override
 		public int getItemCount() {
-			//Log.d("GAdapter:getitemcount()", "mGames.size: " + mGames.size());
+			Log.d("GAdapter:getitemcount()", "mGames.size: " + mGames.size());
 			return mGames.size();
 		}
 
@@ -144,4 +144,8 @@ public class HighScoresFragment extends Fragment{
 		for (String item : list) Log.d(TAG, "logList: " + item);
 	}
 
+	@Override
+	public void getFinished() {
+		updateUI();
+	}
 }

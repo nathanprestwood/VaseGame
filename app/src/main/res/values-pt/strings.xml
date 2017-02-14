@@ -23,7 +23,7 @@
     <string name="hard_type">DIFÍCIL</string>
     <string name="easy_type">FÁCIL</string>
     <string name="scores">Pontuações</string>
-    <string name="hard_warning">Cuidado! Agora você não pode esvaziar baldes!</string>
+    <string name="hard_warning">Cuidado! Agora você só pode encher os baldes apenas uma vez.</string>
     <string name="greeting">Bem-vindo, </string>
     <string name="sync">Sincronizar</string>
     <string name="bucket">Balde</string>

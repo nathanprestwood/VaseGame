@@ -6,8 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -44,15 +42,21 @@ public class DbManager {
 		values.put(GameTable.Cols.DURATION, game.getDuration());
 		return values;
 	}
-	public synchronized void addGame(@NonNull Game game){
+	public synchronized void addGame(Game game){
 		ContentValues values = getContentValues(game);
-		mDatabase.insertWithOnConflict(GameTable.NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		mDatabase.insertWithOnConflict(GameTable.NAME, null, values, SQLiteDatabase.CONFLICT_IGNORE);
 	}
-	public synchronized void addGames(@NonNull List<Game> games){
-		for (Game game : games) addGame(game);
+	public synchronized void addGames(List<Game> games){
+		List<Game> stored = getGames();
+		for (int i = 0; i < stored.size(); i++){//removing duplicates // CONFLICT_IGNORE doesn't work
+			games.remove(stored.get(i));
+		}
+		for(Game game : games){
+			addGame(game);
+		}
 	}
 
-	public synchronized void updateGame(@NonNull Game game) {
+	public synchronized void updateGame(Game game) {
 		String uuidString = game.getId().toString();
 		ContentValues values = getContentValues(game);
 		int numberOfRows = mDatabase.update(GameTable.NAME, values,
@@ -107,7 +111,7 @@ public class DbManager {
 
 		return games;
 	}
-	@NonNull public synchronized List<Game> getGamesWithTheseIds(List<String> ids) {
+	public synchronized List<Game> getGamesWithTheseIds(List<String> ids) {
 		List<Game> games = new ArrayList<>();
 		GameCursorWrapper cursor = queryGames(null, null);
 		Game game = null;

@@ -85,7 +85,7 @@ public class Game {
 		UUID uuid = UUID.fromString(gameJson.getGameId().toString());
 		String username = gameJson.getGameUsername().toString();
 		String gameType = gameJson.getGameType().toString();
-		long duration = Long.parseLong(gameJson.getGameDuration().toString());
+		long duration = gameJson.getGameDuration().getValue();
 		Date date = gameJson.getDateForGame();
 		return new Game(uuid, username, gameType, duration, date);
 	}

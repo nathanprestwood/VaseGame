@@ -315,23 +315,21 @@ public class GameFragment extends Fragment {
 		}
 	}
 	private synchronized void initializeBucket(Button button, TextView textView, int volume, BucketAnimator animator){
+		if (mGameType.equals(Game.HARD)){
+			button.setEnabled(false);
+		}
 		if (button.getText().equals(getString(R.string.fulfill))){
 			animator.mHandler.removeCallbacks(animator.mRunnable);
 			animator.mFulfill = true;
 			animator.mFinalLevel = BucketAnimator.MAX_LEVEL;
 			animator.mHandler.post(animator.mRunnable);
+			if(!mGameType.equals(Game.HARD)) button.setText(R.string.empty);
 			String maxVolume = "" + volume;
-			button.setText(R.string.empty);
 			textView.setText(maxVolume);
 			Log.d(TAG, "initializeBucket:" + mGameType);
 		} else {
-			if (mGameType.equals(Game.HARD)){
-				textView.setText("0");
-				button.setEnabled(false);
-			} else {
-				button.setText(R.string.fulfill);
-				textView.setText("0");
-			}
+			textView.setText("0");
+			button.setText(R.string.fulfill);
 			animator.mHandler.removeCallbacks(animator.mRunnable);
 			animator.mFulfill = false;
 			animator.mFinalLevel = 0;
@@ -361,7 +359,7 @@ public class GameFragment extends Fragment {
 				updateText(mSecondTextView, mFirstTextView, 81);
 				updateWater(mSecondAnimator, mFirstAnimator, ((volume1 - volumeToTransfer)*100/51), ((volume2 + volumeToTransfer)*100/81));
 				if (mSecondTextView.getText().equals("0")) mSecondButton.setText(R.string.fulfill);
-				if (mFirstTextView.getText().equals(limit + "")) mFirstButton.setText(R.string.empty);
+				if (mFirstTextView.getText().equals(limit + "")) if(!mGameType.equals(Game.HARD)) mFirstButton.setText(R.string.empty);
 				mFirstToggleButton.setChecked(false);
 				mSecondToggleButton.setChecked(false);
 				checkWin();
@@ -373,7 +371,7 @@ public class GameFragment extends Fragment {
 				updateText(mThirdTextView, mFirstTextView, 81);
 				updateWater(mThirdAnimator, mFirstAnimator, (volume1 - volumeToTransfer)*100/31, (volume2 + volumeToTransfer)*100/81);
 				if (mThirdTextView.getText().equals("0")) mThirdButton.setText(R.string.fulfill);
-				if (mFirstTextView.getText().equals(limit + "")) mFirstButton.setText(R.string.empty);
+				if (mFirstTextView.getText().equals(limit + "")) if(!mGameType.equals(Game.HARD)) mFirstButton.setText(R.string.empty);
 				mFirstToggleButton.setChecked(false);
 				mThirdToggleButton.setChecked(false);
 				checkWin();
@@ -387,7 +385,7 @@ public class GameFragment extends Fragment {
 				updateText(mFirstTextView, mSecondTextView, 51);
 				updateWater(mFirstAnimator, mSecondAnimator, (volume1 - volumeToTransfer)*100/81, (volume2 + volumeToTransfer)*100/51);
 				if (mFirstTextView.getText().equals("0"))mFirstButton.setText(R.string.fulfill);
-				if (mSecondTextView.getText().equals(limit + "")) mSecondButton.setText(R.string.empty);
+				if (mSecondTextView.getText().equals(limit + "")) if(!mGameType.equals(Game.HARD)) mSecondButton.setText(R.string.empty);
 				Log.d(TAG, "FBtn:" + mFirstButton.getText());
 				mFirstToggleButton.setChecked(false);
 				mSecondToggleButton.setChecked(false);
@@ -400,7 +398,7 @@ public class GameFragment extends Fragment {
 				updateText(mThirdTextView, mSecondTextView, 51);
 				updateWater(mThirdAnimator, mSecondAnimator, (volume1 - volumeToTransfer)*100/31, (volume2 + volumeToTransfer)*100/51);
 				if (mThirdTextView.getText().equals("0")) mThirdButton.setText(R.string.fulfill);
-				if (mSecondTextView.getText().equals(limit + "")) mSecondButton.setText(R.string.empty);
+				if (mSecondTextView.getText().equals(limit + "")) if(!mGameType.equals(Game.HARD)) mSecondButton.setText(R.string.empty);
 				mSecondToggleButton.setChecked(false);
 				mThirdToggleButton.setChecked(false);
 				checkWin();
@@ -413,7 +411,7 @@ public class GameFragment extends Fragment {
 				updateText(mFirstTextView, mThirdTextView, 31);
 				updateWater(mFirstAnimator, mThirdAnimator, (volume1 - volumeToTransfer)*100/81, (volume2 + volumeToTransfer)*100/31);
 				if (mFirstTextView.getText().equals("0")) mFirstButton.setText(R.string.fulfill);
-				if (mThirdTextView.getText().equals(limit + "")) mThirdButton.setText(R.string.empty);
+				if (mThirdTextView.getText().equals(limit + "")) if(!mGameType.equals(Game.HARD)) mThirdButton.setText(R.string.empty);
 				mFirstToggleButton.setChecked(false);
 				mThirdToggleButton.setChecked(false);
 				checkWin();
@@ -425,7 +423,7 @@ public class GameFragment extends Fragment {
 				updateText(mSecondTextView, mThirdTextView, 31);
 				updateWater(mSecondAnimator, mThirdAnimator, (volume1 - volumeToTransfer)*100/51, (volume2 + volumeToTransfer)*100/31);
 				if (mSecondTextView.getText().equals("0")) mSecondButton.setText(R.string.fulfill);
-				if (mThirdTextView.getText().equals(limit + "")) mThirdButton.setText(R.string.empty);
+				if (mThirdTextView.getText().equals(limit + "")) if(!mGameType.equals(Game.HARD)) mThirdButton.setText(R.string.empty);
 				mThirdToggleButton.setChecked(false);
 				mSecondToggleButton.setChecked(false);
 				checkWin();
