@@ -169,7 +169,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="f414687120e31cba56305d2ac23e98fdf72fa31f">
+        sha1="aebce861216ae27ca281c47f4c5b43895d42432e">
         <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\pre-dexed\debug\instant-run-bootstrap_ebf1a2ecffd040f43b64a0eae85e627bae3d30f6.jar" />
     </item>
     <item
@@ -214,7 +214,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="cb5145832cc381e4a48838a301549abe0e6ccfb3">
+        sha1="4c879c46ae10a7838900d4109a064976acf63ee3">
         <dex dex="C:\Users\nmf2\VaseGame\app\build\intermediates\pre-dexed\debug\instant-run_46ab8b746d1bf3bf59b527b3fd63b452e67ac0ea.jar" />
     </item>
     <item

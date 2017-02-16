@@ -36,7 +36,7 @@ public class MenuFragment extends Fragment{
 	private Button mHelp;
 	private SignInButton mSignInButton;
 	private Button mHighScoresButton;
-	public static GoogleSignInAccount mAccount;
+	public GoogleSignInAccount mAccount;
 	public String mUsername = null;
 
 	private GoogleApiClient mGoogleApiClient;
@@ -120,7 +120,7 @@ public class MenuFragment extends Fragment{
 
 		@Override
 		public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-			Log.d(TAG, "onConnectionFailed: login conection failed");
+			Log.d(TAG, "onConnectionFailed: login connection failed");
 			mSignInButton.setVisibility(View.VISIBLE);
 			mWelcomeTextView.setVisibility(View.INVISIBLE);
 			Toast.makeText(getContext(), getString(R.string.signin_error), Toast.LENGTH_LONG).show();
@@ -154,7 +154,6 @@ public class MenuFragment extends Fragment{
 				mWelcomeTextView.setVisibility(View.VISIBLE);
 				mWelcomeTextView.setText(getString(R.string.greeting) + " " + displayName + "!");
 				mWelcomeTextView.setSelected(true);
-				mWelcomeTextView.setSingleLine();
 			} else {
 				mUsername = null;
 			}
@@ -171,6 +170,8 @@ public class MenuFragment extends Fragment{
 		mSignInButton = (SignInButton) v.findViewById(R.id.sign_in_button);
 		mWelcomeTextView = (TextView) v.findViewById(R.id.welcome_text_view);
 		mWelcomeTextView.setVisibility(TextView.INVISIBLE);
+		mWelcomeTextView.setSelected(true);
+		mWelcomeTextView.setSingleLine();
 		mHelp = (Button) v.findViewById(R.id.help_button);
 	}
 

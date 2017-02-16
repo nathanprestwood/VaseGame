@@ -87,7 +87,7 @@ public class DbManager {
 			String username = getString(getColumnIndex(GameTable.Cols.USERNAME));
 			String gameType = getString(getColumnIndex(GameTable.Cols.TYPE));
 			String date = getString(getColumnIndex(GameTable.Cols.DATE));
-			Log.d(TAG, "getGame: date in the database: " + date);
+			//Log.d(TAG, "getGame: date in the database: " + date);
 			long duration = getLong(getColumnIndex(GameTable.Cols.DURATION));
 
 			return new Game(UUID.fromString(uuidString), username, gameType, duration, date);// add the date here
@@ -114,7 +114,7 @@ public class DbManager {
 	public synchronized List<Game> getGamesWithTheseIds(List<String> ids) {
 		List<Game> games = new ArrayList<>();
 		GameCursorWrapper cursor = queryGames(null, null);
-		Game game = null;
+		Game game;
 		try {
 			cursor.moveToFirst();
 			while (!cursor.isAfterLast()) {

@@ -1,9 +1,7 @@
 package ufpe.cin.nmf2.vasegame;
 
-import android.icu.text.TimeZoneFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.util.SortedList;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ufpe.cin.nmf2.vasegame.CloudManager.CloudManager;
-import ufpe.cin.nmf2.vasegame.CloudManager.FileHandler;
 import ufpe.cin.nmf2.vasegame.database.DbManager;
+
 
 public class HighScoresFragment extends Fragment implements GetGameFinish{
 	private static final String TAG = "HighScoresFragment";
@@ -45,6 +43,8 @@ public class HighScoresFragment extends Fragment implements GetGameFinish{
 		mEasyGameRecyclerView = (RecyclerView) view.findViewById(R.id.easy_game_recycler_view);
 		mEasyGameRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+		//Log.d(TAG, "onCreateView: database deleted: " + getContext().deleteDatabase("gameBase.db"));
+
 		TextView usernameTextView = (TextView) view.findViewById(R.id.high_score_username_text_view);
 		if(mUsername != null){
 			usernameTextView.setText(mUsername);
@@ -61,7 +61,7 @@ public class HighScoresFragment extends Fragment implements GetGameFinish{
 					CloudManager cloudManager = new CloudManager(getContext(), false, mUsername);
 					cloudManager.getAndSaveGames(mThis); //also adds them to the local database
 					cloudManager.sendGames(null);
-					Toast.makeText(getActivity(), getString(R.string.syncing), Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity(), getString(R.string.syncing), Toast.LENGTH_SHORT).show();
 				} else {
 					Toast.makeText(getActivity(), getString(R.string.login_to_sync), Toast.LENGTH_SHORT).show();
 				}
@@ -108,7 +108,7 @@ public class HighScoresFragment extends Fragment implements GetGameFinish{
 		}
 		@Override
 		public int getItemCount() {
-			Log.d("GAdapter:getitemcount()", "mGames.size: " + mGames.size());
+			//  Log.d("GAdapter:getitemcount()", "mGames.size: " + mGames.size());
 			return mGames.size();
 		}
 
@@ -139,9 +139,6 @@ public class HighScoresFragment extends Fragment implements GetGameFinish{
 		} else {
 			mEasyAdapter.notifyDataSetChanged();
 		}
-	}
-	public void logIds(List<String> list){
-		for (String item : list) Log.d(TAG, "logList: " + item);
 	}
 
 	@Override

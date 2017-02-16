@@ -27,6 +27,19 @@ public class Game {
 	private long mDuration;
 	private Date mDate;
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj != null){
+			if(obj.getClass().equals(Game.class)) {
+				Game game = (Game) obj;
+				if (this.getId().equals(game.getId())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public Game(UUID id, String username, String gameType, long duration) {
 		mId = id;
 		mDuration = duration;

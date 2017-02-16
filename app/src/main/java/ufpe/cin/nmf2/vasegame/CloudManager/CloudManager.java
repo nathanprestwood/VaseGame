@@ -24,7 +24,6 @@ import okhttp3.Response;
 import ufpe.cin.nmf2.vasegame.Game;
 import ufpe.cin.nmf2.vasegame.GetGameFinish;
 import ufpe.cin.nmf2.vasegame.HighScoresFragment;
-import ufpe.cin.nmf2.vasegame.MenuFragment;
 import ufpe.cin.nmf2.vasegame.R;
 import ufpe.cin.nmf2.vasegame.database.DbManager;
 import ufpe.cin.nmf2.vasegame.fiware.GameJson;
@@ -167,6 +166,7 @@ public class CloudManager {
 
 				Response response = client.newCall(request).execute();
 				content = response.body().string();
+				Log.d(TAG, "doInBackground: content length: " + content.length());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -199,6 +199,7 @@ public class CloudManager {
 			Log.d(TAG, "getFinished: finished getting games, result: " + successful);
 			if(successful) {
 				delegate.getFinished(); // this updates the HighScore Fragment UI
+				delegate = null; //clear out fragment instance
 			}
 		}
 	}
@@ -214,10 +215,6 @@ public class CloudManager {
 		task.delegate = listener;
 		task.execute(mUsername);
 	}
-	public void logList(List<Game> list){
-		Log.d(TAG, "logList: started");
-		for (Game item : list) Log.d(TAG, "logList: " + GameJson.gameToJson(item));
-	}
 	//End of GETTING
 
 
@@ -229,7 +226,7 @@ public class CloudManager {
 			return ERROR_INTERNET_CONNECTION;
 		}
 
-		if(MenuFragment.mAccount == null){
+		if(mUsername.equals(Game.ANONYMOUS)){
 			return ERROR_LOGIN;
 		}
 		try {

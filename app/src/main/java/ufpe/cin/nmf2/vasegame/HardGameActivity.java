@@ -5,10 +5,11 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 
 public class HardGameActivity extends SingleFragmentActivity {
-	private String mUsername = null;
 	private static final String GAMETYPE = "GAMETYPE";
 	private static final String USERNAME = "USERNAME";
 	private static final String TAG = "HardGameActivity";
+
+	private String mUsername = null;
 	public Fragment createFragment() {
 
 		Bundle args = new Bundle();
