@@ -4,5 +4,4 @@
         android:state_checked="true"/>
     <item android:drawable="@drawable/bucket"
         android:state_checked="false"/>
-
 </selector>
